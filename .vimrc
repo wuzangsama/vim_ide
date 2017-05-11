@@ -3,6 +3,11 @@
 " 定义快捷键的前缀，即 <Leader>
 let mapleader=","
 
+" 启动后定位到上次关闭光标位置
+if has("autocmd")
+    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
+
 " >>
 " 文件类型侦测
 
@@ -109,6 +114,7 @@ Plugin 'Lokaltog/vim-easymotion'
 Plugin 'suan/vim-instant-markdown'
 Plugin 'ctrlp.vim'
 Plugin 'tacahiroy/ctrlp-funky'
+Plugin 'vim-scripts/DoxygenToolkit.vim'
 
 " 插件列表结束
 call vundle#end()
@@ -116,10 +122,11 @@ filetype plugin indent on
 " <<<<
 
 " 配色方案
-set background=dark
-colorscheme solarized
+"set background=dark
+"colorscheme solarized
 "colorscheme molokai
 "colorscheme phd
+color ron
 
 " >>
 " 营造专注气氛
@@ -162,7 +169,7 @@ set number
 
 " 高亮显示当前行/列
 set cursorline
-set cursorcolumn
+"set cursorcolumn
 
 " 高亮显示搜索结果
 set hlsearch
@@ -179,7 +186,7 @@ set hlsearch
 set nowrap
 
 " 设置状态栏主题风格
-let g:Powerline_colorscheme='solarized256'
+"let g:Powerline_colorscheme='solarized256'
 
 " <<
 
@@ -235,7 +242,7 @@ set nofoldenable
 " 接口与实现快速切换
 
 " *.cpp 和 *.h 间切换
-nmap <silent> <Leader>sw :FSHere<cr>
+nmap <silent> <Leader>A :FSHere<cr>
 
 " <<
 
@@ -273,7 +280,7 @@ let g:SignatureMap = {
 " 标签列表
 
 " 设置 tagbar 子窗口的位置出现在主编辑区的左边
-let tagbar_left=0
+let tagbar_left=1
 " 设置显示／隐藏标签列表子窗口的快捷键。速记：identifier list by tag
 nnoremap <F2> :TagbarToggle<CR>
 " 设置标签子窗口的宽度
@@ -462,17 +469,15 @@ nmap <F3> :NERDTreeToggle<CR>
 " 设置 NERDTree 子窗口宽度
 "let NERDTreeWinSize=22
 " 设置 NERDTree 子窗口位置
-let NERDTreeWinPos="left"
+let NERDTreeWinPos="right"
 " 显示隐藏文件
 let NERDTreeShowHidden=1
 " NERDTree 子窗口中不显示冗余帮助信息
-let NERDTreeMinimalUI=1
+"let NERDTreeMinimalUI=1
 " 删除文件时自动删除文件对应 buffer
 let NERDTreeAutoDeleteBuffer=1
 " 当打开vim且没有文件时自动打开NERDTree
 autocmd vimenter * if !argc() | NERDTree | endif
-" 只剩 NERDTree时自动关闭
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 " <<
 
@@ -483,8 +488,8 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 map <Leader>bl :MBEToggle<cr>
 
 " buffer 切换快捷键
-map <C-Tab> :MBEbn<cr>
-map <C-S-Tab> :MBEbp<cr>
+map <C-Right> :MBEbn<cr>
+map <C-Left> :MBEbp<cr>
 
 " <<
 
@@ -537,3 +542,12 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.png,*.jpg,*.gif     " MacOSX/Li
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 let g:ctrlp_custom_ignore = '\v\.(exe|so|dll)$'
 let g:ctrlp_extensions = ['funky']
+
+" <<
+" Doxygen
+let g:DoxygenToolkit_blockHeader="--------------------------------------------------------------------------"
+let g:DoxygenToolkit_blockFooter="----------------------------------------------------------------------------"
+let g:DoxygenToolkit_authorName="zhanghf@zailingtech.com"
+let g:DoxygenToolkit_versionString="1.0"
+map <Leader>da <ESC>gg:DoxAuthor<CR>
+map <Leader>df <ESC>:Dox<CR>
