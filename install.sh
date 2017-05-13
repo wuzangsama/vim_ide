@@ -51,6 +51,5 @@ cd ~/.vim/bundle/YouCompleteMe/
 echo "最后一些处理工作~"
 cd ~
 cp -rf ~/vim_ide/mysnippets/ ~/.vim/bundle/ultisnips/
-cp -f ~/vim_ide/.indexer_files ~/
 
 echo "OK，祝使用愉快~"
