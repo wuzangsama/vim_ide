@@ -287,6 +287,23 @@ nnoremap <Leader>rcw :call Replace(1, 1, input('Replace '.expand('<cword>').' wi
 nnoremap <Leader>rwc :call Replace(1, 1, input('Replace '.expand('<cword>').' with: '))<CR>
 
 
+" 环境恢复
+" 设置环境保存项
+set sessionoptions="blank,globals,localoptions,tabpages,sesdir,folds,help,options,resize,winpos,winsize"
+
+" 保存 undo 历史。必须先行创建 .undo_history/
+set undodir=~/.undo_history/
+set undofile
+
+" 保存快捷键
+"map <leader>ss :mksession! my.vim<cr> :wviminfo! my.viminfo<cr>
+map <leader>ss :mksession! my.vim<cr>
+
+" 恢复快捷键
+"map <leader>rs :source my.vim<cr> :rviminfo my.viminfo<cr>
+map <leader>rs :source my.vim<cr>
+
+
 " 全屏开/关快捷键
 "map <silent> <F11> :call ToggleFullscreen()<CR>
 
@@ -454,25 +471,6 @@ map <Leader>bl :MBEToggle<cr>
 " buffer 切换快捷键
 map <C-Right> :MBEbn<cr>
 map <C-Left> :MBEbp<cr>
-
-
-">----------------------------------------------------------------------
-" 环境恢复
-" 设置环境保存项
-set sessionoptions="blank,globals,localoptions,tabpages,sesdir,folds,help,options,resize,winpos,winsize"
-
-" 保存 undo 历史。必须先行创建 .undo_history/
-set undodir=~/.undo_history/
-set undofile
-
-" 保存快捷键
-"map <leader>ss :mksession! my.vim<cr> :wviminfo! my.viminfo<cr>
-map <leader>ss :mksession! my.vim<cr>
-
-" 恢复快捷键
-"map <leader>rs :source my.vim<cr> :rviminfo my.viminfo<cr>
-map <leader>rs :source my.vim<cr>
-"<----------------------------------------------------------------------
 
  
 " 快速选中结对符内的文本wildfire
