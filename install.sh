@@ -2,13 +2,32 @@
 echo "开始安装，请耐心等待~"
 
 if which apt-get >/dev/null; then
-    sudo apt install build-essential python-dev ncurses-dev git cmake ctags
+    sudo apt install build-essential \
+        python python3 python-dev python3-dev \
+        ruby ruby-dev \
+        lua5.3 liblua5.3-dev lua5.2 liblua5.2-dev \
+        perl libperl-dev \
+        libtcl8.6 \
+        ncurses-dev \
+        git cmake ctags
 fi
 
 cd ~
 git clone https://github.com/vim/vim.git
 cd vim
-./configure --with-features=huge --enable-pythoninterp --enable-rubyinterp --enable-luainterp --enable-perlinterp --with-python-config-dir=/usr/lib/python2.7/config/ --enable-gui=gtk2 --enable-cscope --prefix=/usr
+./configure --prefix=/usr \
+    --with-features=huge \
+    --enable-multibyte \
+    --enable-cscope=yes \
+    --enable-perlinterp=yes \
+    --enable-rubyinterp=yes \
+    --with-ruby-command=/usr/bin/ruby \
+    --enable-luainterp=yes \
+    --enable-pythoninterp=yes \
+    --with-python-config-dir=/usr/lib/python2.7/config-x86_64-linux-gnu/ \
+    --enable-tclinterp=yes \
+    --enable-gui=auto
+
 make
 sudo make install
 
