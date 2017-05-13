@@ -1,6 +1,15 @@
 # vim_ide
 本脚本是我使用的比较顺手的c/c++开发专用vim配置脚本，功能堪比简单的ide :)
 
+## 安装
+运行如下命令即可完成安装：
+```
+cd ~
+git clone https://github.com/wuzangsama/vim_ide.git
+cd vim_ide
+sh install.sh
+```
+
 ## 使用说明
 ### 一般使用
 - vim的leader键映射成了`;`，可自行更改为其他顺手的键
@@ -37,6 +46,7 @@
 - 将光标定位在函数定义或申明那一行，使用`<Leader>df`生成函数说明文档
 - 补全时使用`<C-P>`和`<C-N>`来选中想要的匹配项
 - 除了使用默认的跳转命令，还可以使用`<Leader>jd`来查找定义
+
 ## 小技巧
 ### 各种实用的snip快捷输入
 - 输入once，按下`<Leader><tab>`可以生成头文件保护宏:)
