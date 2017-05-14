@@ -113,27 +113,27 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'tomasr/molokai'
-Plugin 'vim-scripts/phd'
-Plugin 'Lokaltog/vim-powerline'
+Plugin 'flazz/vim-colorschemes'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'derekwyatt/vim-fswitch'
+Plugin 'vim-scripts/matchit.zip'
 Plugin 'kshenoy/vim-signature'
 Plugin 'majutsushi/tagbar'
+Plugin 'godlygeek/tabular'
 Plugin 'dyng/ctrlsf.vim'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'scrooloose/nerdcommenter'
-Plugin 'vim-scripts/DrawIt'
 Plugin 'SirVer/ultisnips'
 Plugin 'derekwyatt/vim-protodef'
 Plugin 'scrooloose/nerdtree'
-Plugin 'fholgado/minibufexpl.vim'
-Plugin 'gcmt/wildfire.vim'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-repeat'
 Plugin 'sjl/gundo.vim'
-Plugin 'Lokaltog/vim-easymotion'
-Plugin 'ctrlp.vim'
+Plugin 'easymotion/vim-easymotion'
+Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'tacahiroy/ctrlp-funky'
 Plugin 'vim-scripts/DoxygenToolkit.vim'
 Plugin 'jiangmiao/auto-pairs'
@@ -214,6 +214,12 @@ nnoremap <C-h> <C-W>h
 nnoremap <C-k> <C-W>k
 " 跳转至下方的子窗口
 nnoremap <C-j> <C-W>j
+
+" 跳转到下一个buffer
+map <C-Right> :bNext
+" 跳转到上一个buffer
+map <C-Left> :bPrevious
+
 
 " 库信息参考
 " 启用:Man命令查看各类man信息
@@ -319,9 +325,10 @@ map <leader>rs :source my.vim<cr>
 " 插件配置>>
 "=========================================
 
-" Powerline
-" 设置状态栏主题风格
-let g:Powerline_colorscheme='solarized256'
+" airline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
 
 
 " 缩进可视化插件 Indent Guides
@@ -333,37 +340,17 @@ let g:indent_guides_start_level=2
 let g:indent_guides_guide_size=1
 " 快捷键 i 开/关缩进可视化
 "nmap <silent> <Leader>i <Plug>IndentGuidesToggle
+" 当background为dark
+hi IndentGuidesOdd  ctermbg=black
+hi IndentGuidesEven ctermbg=darkgrey
+" 当background为light
+"hi IndentGuidesOdd  ctermbg=white
+"hi IndentGuidesEven ctermbg=lightgrey
 
 
 " fswitch
 " *.cpp 和 *.h 间切换
 nmap <silent> <Leader>A :FSHere<cr>
-
-
-" 自定义 vim-signature 快捷键
-let g:SignatureMap = {
-        \ 'Leader'             :  "m",
-        \ 'PlaceNextMark'      :  "m,",
-        \ 'ToggleMarkAtLine'   :  "m.",
-        \ 'PurgeMarksAtLine'   :  "m-",
-        \ 'DeleteMark'         :  "dm",
-        \ 'PurgeMarks'         :  "mda",
-        \ 'PurgeMarkers'       :  "m<BS>",
-        \ 'GotoNextLineAlpha'  :  "']",
-        \ 'GotoPrevLineAlpha'  :  "'[",
-        \ 'GotoNextSpotAlpha'  :  "`]",
-        \ 'GotoPrevSpotAlpha'  :  "`[",
-        \ 'GotoNextLineByPos'  :  "]'",
-        \ 'GotoPrevLineByPos'  :  "['",
-        \ 'GotoNextSpotByPos'  :  "mn",
-        \ 'GotoPrevSpotByPos'  :  "mp",
-        \ 'GotoNextMarker'     :  "[+",
-        \ 'GotoPrevMarker'     :  "[-",
-        \ 'GotoNextMarkerAny'  :  "]=",
-        \ 'GotoPrevMarkerAny'  :  "[=",
-        \ 'ListLocalMarks'     :  "ms",
-        \ 'ListLocalMarkers'   :  "m?"
-        \ }
 
 
 " 设置 tagbar 子窗口的位置出现在主编辑区的右边
@@ -412,18 +399,8 @@ let g:tagbar_type_cpp = {
 \ }
 
 
-" 设置插件 indexer 调用 ctags 的参数
-" 默认 --c++-kinds=+p+l，重新设置为 --c++-kinds=+l+p+x+c+d+e+f+g+m+n+s+t+u+v
-" 默认 --fields=+iaS 不满足 YCM 要求，需改为 --fields=+iaSl
-let g:indexer_ctagsCommandLineOptions="--c++-kinds=+l+p+x+c+d+e+f+g+m+n+s+t+u+v --fields=+iaSl --extra=+q"
-
-" 正向遍历同名标签
-nmap <Leader>tn :tnext<CR>
-" 反向遍历同名标签
-nmap <Leader>tp :tprevious<CR>
-
-
 " 使用 ctrlsf.vim 插件在工程内全局查找光标所在关键字，设置快捷键。快捷键速记法：search in project
+let g:ackprg='ag --nogroup --nocolor --nocolumn' 
 nnoremap <Leader>sp :CtrlSF<CR>
 
 
@@ -462,24 +439,10 @@ let NERDTreeMinimalUI=1
 let NERDTreeAutoDeleteBuffer=1
 " 当打开vim且没有文件时自动打开NERDTree
 autocmd vimenter * if !argc() | NERDTree | endif
-
-
-" 多文档编辑
-" 显示/隐藏 MiniBufExplorer 窗口
-map <Leader>bl :MBEToggle<cr>
-
-" buffer 切换快捷键
-map <C-Right> :MBEbn<cr>
-map <C-Left> :MBEbp<cr>
-
- 
-" 快速选中结对符内的文本wildfire
-" 快捷键
-map <SPACE> <Plug>(wildfire-fuel)
-vmap <S-SPACE> <Plug>(wildfire-water)
-
-" 适用于哪些结对符
-let g:wildfire_objects = ["i'", 'i"', "i)", "i]", "i}", "i>", "ip"]
+" 打开vim自动打开NERDTree
+"autocmd vimenter * NERDTree
+" 只剩NERDTree时自动关闭
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 
 " 调用 gundo 树
@@ -553,6 +516,13 @@ let g:ycm_min_num_of_chars_for_completion = 2
 let g:ycm_seed_identifiers_with_syntax = 1
 let g:ycm_semantic_triggers =  {'c' : ['->', '.'], 'objc' : ['->', '.'], 'ocaml' : ['.', '#'], 'cpp,objcpp' : ['->', '.', '::'], 'php' : ['->', '::'], 'cs,java,javascript,vim,coffee,python,scala,go' : ['.'], 'ruby' : ['.', '::']}
 nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>"
+
+
+" Tabular
+nmap <Leader>a= :Tabularize /=<CR>
+vmap <Leader>a= :Tabularize /=<CR>
+nmap <Leader>a: :Tabularize /:\zs<CR>
+vmap <Leader>a: :Tabularize /:\zs<CR>
 
 
 "=========================================

@@ -21,6 +21,7 @@ sh install.sh
 - 映射`<leader>Q`为不做保存退出vim
 - 映射`<C-w>`为切换子窗口
 - 映射`<C-k>`,`<C-j>`,`<C-h>`,`<C-l>`为切换上下左右窗口
+- 使用`<C-Left>`和`<C-Right>`来切换已打开的buffer
 ### 编译调试
 - 映射`<F7>`为编译c/c++文档
 - 映射`<F5>`为调试c/c++
@@ -32,20 +33,89 @@ sh install.sh
 ### 插件快捷键
 - 映射`<Leader>A`为切换h/cpp,h/c文件
 - 使用`ma`/`mb`...等用来打标签，可实现同一文件的位置标记可视化，使用`` `a``/`` `b``可进行定位
+```
+  mx           Toggle mark 'x' and display it in the leftmost column
+  dmx          Remove mark 'x' where x is a-zA-Z
+
+  m,           Place the next available mark
+  m.           If no mark on line, place the next available mark. Otherwise, remove (first) existing mark.
+  m-           Delete all marks from the current line
+  m<Space>     Delete all marks from the current buffer
+  ]`           Jump to next mark
+  [`           Jump to prev mark
+  ]'           Jump to start of next line containing a mark
+  ['           Jump to start of prev line containing a mark
+  `]           Jump by alphabetical order to next mark
+  `[           Jump by alphabetical order to prev mark
+  ']           Jump by alphabetical order to start of next line having a mark
+  '[           Jump by alphabetical order to start of prev line having a mark
+  m/           Open location list and display marks from current buffer
+
+  m[0-9]       Toggle the corresponding marker !@#$%^&*()
+  m<S-[0-9]>   Remove all markers of the same type
+  ]-           Jump to next line having a marker of the same type
+  [-           Jump to prev line having a marker of the same type
+  ]=           Jump to next line having a marker of any type
+  [=           Jump to prev line having a marker of any type
+  m?           Open location list and display markers from current buffer
+  m<BS>        Remove all markers
+```
 - 使用`<F2>`可以在右边调出tag标签列表，方便查看函数列表等
 - 映射`<Leader>sp`在工程文件夹下搜索光标下的单词
 - 可视模式选中一部分单词，可以使用`<S-n>`来一次选中多个该单词，使用`<S-k>`跳过当前选中的单词
 - 因为跟YCM的按键冲突，改为使用`<Leader><tab>`键来做snip快捷输入
 - 写完.h文件的申明后，在c文件或者cpp文件中使用`<Leader>PP`来生成函数定义
 - 使用`<F3>`来调出文件浏览器
-- 使用`<C-Left>`和`<C-Right>`来切换已打开的buffer
 - 使用`<SPACE>`来选中两个括号或大括号等成对符之间的内容，快速选中快速修改
 - 使用`<Leader>ud`打开undo树，牛逼版u键
 - 使用`<C-P>`打开工程中搜索文件窗口，查找文件各种方便
 - 使用`<Leader>da`生成文档说明头，可以自行更改vimrc文件中的user来产生自己的头
 - 将光标定位在函数定义或申明那一行，使用`<Leader>df`生成函数说明文档
-- 补全时使用`<C-P>`和`<C-N>`来选中想要的匹配项
+- 补全时使用`tab`来选中想要的匹配项
 - 除了使用默认的跳转命令，还可以使用`<Leader>jd`来查找定义
+- 使用`<Leader>a=`来对齐等号，使用`<Leader>a:`来对齐冒号，让代码更美观
+- Surround插件说明
+```
+例子：
+Old text                  Command     New text ~
+ "Hello *world!"           ds"         Hello world!
+ [123+4*56]/2              cs])        (123+456)/2
+ "Look ma, I'm *HTML!"     cs"<q>      <q>Look ma, I'm HTML!</q>
+ if *x>3 {                 ysW(        if ( x>3 ) {
+ my $str = *whee!;         vlllls'     my $str = 'whee!';
+ <div>Yo!*</div>           dst         Yo!
+ <div>Yo!*</div>           cst<p>      <p>Yo!</p>
+
+命令列表：
+Normal mode
+-----------
+ds  - delete a surrounding
+cs  - change a surrounding
+ys  - add a surrounding
+yS  - add a surrounding and place the surrounded text on a new line + indent it
+yss - add a surrounding to the whole line
+ySs - add a surrounding to the whole line, place it on a new line + indent it
+ySS - same as ySs
+Visual mode
+-----------
+s   - in visual mode, add a surrounding
+S   - in visual mode, add a surrounding but place text on new line + indent it
+Insert mode
+-----------
+<CTRL-s> - in insert mode, add a surrounding
+<CTRL-s><CTRL-s> - in insert mode, add a new line + surrounding + indent
+<CTRL-g>s - same as <CTRL-s>
+<CTRL-g>S - same as <CTRL-s><CTRL-s>
+
+其他常见用法
+ci: 例如，ci(，或者ci)，将会修改()之间的文本；
+di: 剪切配对符号之间文本；
+yi: 复制；
+ca: 同ci，但修改内容包括配对符号本身；
+da: 同di，但剪切内容包括配对符号本身；
+ya: 同yi，但复制内容包括配对符号本身。
+PS. dib等同于di(。diB等同于di{。
+```
 
 ## 小技巧
 ### 各种实用的snip快捷输入
