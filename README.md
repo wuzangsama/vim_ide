@@ -1,6 +1,6 @@
 # vim_ide
 本脚本是我使用的比较顺手的c/c++开发专用vim配置脚本，功能堪比简单的ide :)
-vim基本说明图：
+- vim基本说明图：
 ![vim basic](vim.jpeg)
 
 ## 安装
