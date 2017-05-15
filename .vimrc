@@ -175,11 +175,11 @@ filetype plugin indent on
 "=========================================
 
 " 配色方案
-"set background=dark
-"colorscheme solarized
+set background=dark
+colorscheme solarized
 "colorscheme molokai
 "colorscheme phd
-color ron
+"color ron
 
 " 让配置变更立即生效
 "autocmd BufWritePost $MYVIMRC source $MYVIMRC
@@ -344,7 +344,7 @@ map <leader>rs :source my.vim<cr>
 "=========================================
 
 " airline
-let g:airline_theme="ron"
+let g:airline_theme="dark"
 
 " 这个是安装字体后 必须设置此项" 
 let g:airline_powerline_fonts = 1
