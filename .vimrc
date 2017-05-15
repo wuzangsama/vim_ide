@@ -216,9 +216,9 @@ nnoremap <C-k> <C-W>k
 nnoremap <C-j> <C-W>j
 
 " 跳转到下一个buffer
-map <C-Right> :bNext
+map <C-Right> <ESC>:bnext<CR>
 " 跳转到上一个buffer
-map <C-Left> :bPrevious
+map <C-Left> <ESC>:bprevious<CR>
 
 
 " 库信息参考
@@ -326,9 +326,18 @@ map <leader>rs :source my.vim<cr>
 "=========================================
 
 " airline
+let g:airline_theme="luna"
+
+" 这个是安装字体后 必须设置此项" 
+let g:airline_powerline_fonts = 1
+
+" 显示buffer栏和buffer编号
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#buffer_nr_show = 1
+
+" 关闭状态显示空白符号计数,这个对我用处不大"
+"let g:airline#extensions#whitespace#enabled = 0
+"let g:airline#extensions#whitespace#symbol = '!'
 
 
 " 缩进可视化插件 Indent Guides
