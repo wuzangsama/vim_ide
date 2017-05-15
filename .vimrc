@@ -336,8 +336,8 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
 
 " 关闭状态显示空白符号计数,这个对我用处不大"
-"let g:airline#extensions#whitespace#enabled = 0
-"let g:airline#extensions#whitespace#symbol = '!'
+let g:airline#extensions#whitespace#enabled = 0
+let g:airline#extensions#whitespace#symbol = '!'
 
 
 " 缩进可视化插件 Indent Guides
