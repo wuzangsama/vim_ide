@@ -39,8 +39,19 @@ sudo make install
 mv -f ~/.vim ~/.vim_old
 mv -f ~/.vimrc ~/.vimrc_old
 
+echo "安装airline所需字体~"
+cd ~
+git clone https://github.com/powerline/fonts.git
+cd fonts
+./install.sh
+cd ..
+rm -rf fonts
+
+echo "安装vundle插件~"
 cd ~
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+
+echo "开始安装vim环境~"
 git clone https://github.com/wuzangsama/vim_ide.git
 cp -f ~/vim_ide/.vimrc ~/
 
@@ -54,7 +65,9 @@ cd ~/.vim/bundle/YouCompleteMe/
 ./install.py --clang-completer
 
 echo "最后一些处理工作~"
+cd ~/.vim/bundle/ultisnips/
+mkdir mysnippets
 cd ~
-cp -rf ~/vim_ide/mysnippets/ ~/.vim/bundle/ultisnips/
+cp -rf ~/vim_ide/mysnippets/* ~/.vim/bundle/ultisnips/mysnippets
 
 echo "OK，祝使用愉快~"
