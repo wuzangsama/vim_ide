@@ -141,8 +141,10 @@ Plugin 'vim-scripts/matchit.zip'
 Plugin 'kshenoy/vim-signature'
 Plugin 'majutsushi/tagbar'
 Plugin 'godlygeek/tabular'
-Plugin 'dyng/ctrlsf.vim'
+Plugin 'rking/ag.vim'
+Plugin 'Chun-Yang/vim-action-ag'
 Plugin 'terryma/vim-multiple-cursors'
+Plugin 'mhinz/vim-signify'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'SirVer/ultisnips'
 Plugin 'derekwyatt/vim-protodef'
@@ -175,7 +177,7 @@ filetype plugin indent on
 "=========================================
 
 " 配色方案
-"set background=dark
+"set background=light
 "colorscheme solarized
 "colorscheme molokai
 "colorscheme phd
@@ -344,8 +346,8 @@ map <leader>rs :source my.vim<cr>
 "=========================================
 
 " airline
-"let g:airline_theme="molokai"
-let g:airline_theme="dark"
+let g:airline_theme="molokai"
+"let g:airline_theme="dark"
 
 " 这个是安装字体后 必须设置此项" 
 let g:airline_powerline_fonts = 1
@@ -432,11 +434,6 @@ let g:tagbar_type_cpp = {
          \ 'union'     : 'u'
      \ }
 \ }
-
-
-" 使用 ctrlsf.vim 插件在工程内全局查找光标所在关键字，设置快捷键。快捷键速记法：search in project
-let g:ackprg='ag --nogroup --nocolor --nocolumn' 
-nnoremap <Leader>sp :CtrlSF<CR>
 
 
 " 快捷替换 multi_cursor

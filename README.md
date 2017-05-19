@@ -64,7 +64,7 @@ sh install.sh
   m<BS>        Remove all markers
 ```
 - 使用`<F2>`可以在右边调出tag标签列表，方便查看函数列表等
-- 映射`<Leader>sp`在工程文件夹下搜索光标下的单词
+- 映射`gag`在工程文件夹下搜索选中的单词
 - 可视模式选中一部分单词，可以使用`<Leader>n`来一次选中多个该单词，使用`<Leader>k`跳过当前选中的单词
 - 因为跟YCM的按键冲突，改为使用`<Leader><tab>`键来做snip快捷输入
 - 写完.h文件的申明后，在c文件或者cpp文件中使用`<Leader>PP`来生成函数定义
