@@ -1,6 +1,6 @@
 "
 " @file .vimrc
-" @brief 
+" @brief
 " @author zhanghf@zailingtech.com
 " @version 1.0
 " @date 2017-05-11
@@ -131,7 +131,11 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'flazz/vim-colorschemes'
+Plugin 'nanotech/jellybeans.vim'
+Plugin 'w0ng/vim-hybrid'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'tomasr/molokai'
+Plugin 'phd'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'octol/vim-cpp-enhanced-highlight'
@@ -159,6 +163,7 @@ Plugin 'vim-scripts/DoxygenToolkit.vim'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'vim-syntastic/syntastic'
 Plugin 'Valloric/YouCompleteMe'
+Plugin 'bronson/vim-trailing-whitespace'
 
 " 插件列表结束
 call vundle#end()
@@ -177,7 +182,8 @@ filetype plugin indent on
 "=========================================
 
 " 配色方案
-"set background=light
+"set background=dark
+"colorscheme hybrid
 "colorscheme solarized
 "colorscheme molokai
 "colorscheme phd
@@ -258,8 +264,8 @@ func! CompileRunGcc()
     elseif &filetype == 'cpp'
         exec "!g++ % -std=c++11 -o %<"
         exec "!time ./%<"
-    elseif &filetype == 'java' 
-        exec "!javac %" 
+    elseif &filetype == 'java'
+        exec "!javac %"
         exec "!time java %<"
     elseif &filetype == 'sh'
         :!time bash %
@@ -346,10 +352,10 @@ map <leader>rs :source my.vim<cr>
 "=========================================
 
 " airline
-let g:airline_theme="molokai"
-"let g:airline_theme="dark"
+"let g:airline_theme="hybrid"
+let g:airline_theme="dark"
 
-" 这个是安装字体后 必须设置此项" 
+" 这个是安装字体后 必须设置此项"
 let g:airline_powerline_fonts = 1
 
 " 显示buffer栏和buffer编号
@@ -405,7 +411,7 @@ let g:tagbar_type_cpp = {
      \ 'kinds'     : [
          \ 'c:classes:0:1',
          \ 'd:macros:0:1',
-         \ 'e:enumerators:0:0', 
+         \ 'e:enumerators:0:0',
          \ 'f:functions:0:1',
          \ 'g:enumeration:0:1',
          \ 'l:local:0:1',
@@ -447,7 +453,7 @@ let g:UltiSnipsExpandTrigger="<leader><tab>"
 let g:UltiSnipsJumpForwardTrigger="<leader><tab>"
 let g:UltiSnipsJumpBackwardTrigger="<leader><s-tab>"
 
- 
+
 " 由接口快速生成实现框架protodef
 " 设置 pullproto.pl 脚本路径
 let g:protodefprotogetter='~/.vim/bundle/vim-protodef/pullproto.pl'
@@ -499,7 +505,7 @@ map <Leader>da <ESC>gg:DoxAuthor<CR>
 map <Leader>df <ESC>:Dox<CR>
 
 
-" syntastic 
+" syntastic
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
