@@ -69,5 +69,6 @@ cd ~/.vim/bundle/ultisnips/
 mkdir mysnippets
 cd ~
 cp -rf ~/vim_ide/mysnippets/* ~/.vim/bundle/ultisnips/mysnippets
+mkdir -p ~/.undo_history
 
 echo "OK，祝使用愉快~"
