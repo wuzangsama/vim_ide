@@ -131,11 +131,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'nanotech/jellybeans.vim'
-Plugin 'w0ng/vim-hybrid'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'tomasr/molokai'
-Plugin 'phd'
+Plugin 'flazz/vim-colorschemes'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'octol/vim-cpp-enhanced-highlight'
@@ -148,7 +144,7 @@ Plugin 'godlygeek/tabular'
 Plugin 'rking/ag.vim'
 Plugin 'Chun-Yang/vim-action-ag'
 Plugin 'terryma/vim-multiple-cursors'
-Plugin 'mhinz/vim-signify'
+"Plugin 'mhinz/vim-signify' 显示svn，git等修改 暂时不用
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'SirVer/ultisnips'
 Plugin 'derekwyatt/vim-protodef'
@@ -164,6 +160,7 @@ Plugin 'jiangmiao/auto-pairs'
 Plugin 'vim-syntastic/syntastic'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'bronson/vim-trailing-whitespace'
+Plugin 'vasconcelloslf/vim-interestingwords' " 使用<leader>k高亮, <leader>K清除, n/N跳转
 
 " 插件列表结束
 call vundle#end()
@@ -185,9 +182,9 @@ filetype plugin indent on
 "set background=dark
 "colorscheme hybrid
 "colorscheme solarized
-"colorscheme molokai
+colorscheme molokai
 "colorscheme phd
-color ron
+"color ron
 
 " 让配置变更立即生效
 "autocmd BufWritePost $MYVIMRC source $MYVIMRC
@@ -242,9 +239,9 @@ nnoremap <C-k> <C-W>k
 nnoremap <C-j> <C-W>j
 
 " 跳转到下一个buffer
-map <C-Right> <ESC>:bnext<CR>
+map <Leader>l <ESC>:bnext<CR>
 " 跳转到上一个buffer
-map <C-Left> <ESC>:bprevious<CR>
+map <Leader>h <ESC>:bprevious<CR>
 
 
 " 库信息参考
@@ -353,7 +350,9 @@ map <leader>rs :source my.vim<cr>
 
 " airline
 "let g:airline_theme="hybrid"
-let g:airline_theme="dark"
+let g:airline_theme="molokai"
+"let g:airline_theme="solarized"
+"let g:airline_theme="dark"
 
 " 这个是安装字体后 必须设置此项"
 let g:airline_powerline_fonts = 1
@@ -443,8 +442,8 @@ let g:tagbar_type_cpp = {
 
 
 " 快捷替换 multi_cursor
-let g:multi_cursor_next_key='<Leader>n'
-let g:multi_cursor_skip_key='<Leader>k'
+let g:multi_cursor_next_key='<S-M>'
+let g:multi_cursor_skip_key='<S-K>'
 
 
 " 模板补全UltiSnips
