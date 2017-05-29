@@ -179,11 +179,20 @@ filetype plugin indent on
 "=========================================
 
 " 配色方案
-"set background=dark
-"colorscheme hybrid
+"set background=light
+set t_Co=256
+
 "colorscheme solarized
-colorscheme molokai
+"let g:solarized_termtrans=1
+"let g:solarized_contrast="normal"
+"let g:solarized_visibility="normal"
+
+"colorscheme molokai
+"let g:molokai_original = 1
+
+colorscheme gruvbox
 "colorscheme phd
+"colorscheme hybrid
 "color ron
 
 " 让配置变更立即生效
@@ -229,6 +238,7 @@ nmap <Leader>Q :qa!<CR>
 " 设置快捷键遍历子窗口
 " 依次遍历
 nnoremap <C-w> <C-W>w
+nnoremap <tab> <C-W>w
 " 跳转至右方的窗口
 nnoremap <C-l> <C-W>l
 " 跳转至方的窗口
@@ -350,7 +360,8 @@ map <leader>rs :source my.vim<cr>
 
 " airline
 "let g:airline_theme="hybrid"
-let g:airline_theme="molokai"
+"let g:airline_theme="molokai"
+"let g:airline_theme="gruvbox"
 "let g:airline_theme="solarized"
 "let g:airline_theme="dark"
 
