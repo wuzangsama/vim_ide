@@ -9,12 +9,12 @@ if which apt-get >/dev/null; then
         perl libperl-dev \
         libtcl8.6 \
         ncurses-dev \
-        git cmake ctags silversearcher-ag
+        git cmake ctags silversearcher-ag curl
 fi
 
 if which brew >/dev/null;then
     echo "mac 使用brew安装~"
-    brew install ruby ruby-dev perl libperl-dev cmake ctags git the_silver_searcher
+    brew install ruby ruby-dev perl libperl-dev cmake ctags git the_silver_searcher curl
 fi
 
 cd ~
@@ -47,9 +47,10 @@ cd fonts
 cd ..
 rm -rf fonts
 
-echo "安装vundle插件~"
+echo "安装vim-plug插件~"
 cd ~
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 echo "开始安装vim环境~"
 git clone https://github.com/wuzangsama/vim_ide.git
@@ -57,7 +58,7 @@ cp -f ~/vim_ide/.vimrc ~/
 
 echo "开始安装Bundle插件，安装完将自动退出~"
 
-vim -c "PluginInstall" -c "q" -c "q"
+vim -c "PlugInstall" -c "q" -c "q"
 
 echo "开始安装YouCompleteMe~"
 

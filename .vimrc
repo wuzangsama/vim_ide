@@ -18,6 +18,9 @@ let mapleader=";"
 " 禁止光标闪烁
 set gcr=a:block-blinkon0
 
+" 启用鼠标
+set mouse=a
+
 " 禁止显示滚动条
 set guioptions-=l
 set guioptions-=L
@@ -105,6 +108,13 @@ set formatoptions+=m
 " 合并两行中文时，不在中间加空格
 set formatoptions+=B
 
+" 让配置变更立即生效
+autocmd BufWritePost $MYVIMRC source $MYVIMRC
+
+" 启动后定位到上次关闭光标位置
+if has("autocmd")
+    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
 
 "" 引入 C++ 标准库 tags
 "set tags+=/data/misc/software/app/vim/stdcpp.tags
@@ -124,47 +134,45 @@ set formatoptions+=B
 " 插件安装>>
 "=========================================
 
-" vundle 环境设置
+" vim-plug 环境设置
 filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
-" vundle 管理的插件列表必须位于 vundle#begin() 和 vundle#end() 之间
-call vundle#begin()
+" vim-plug 管理的插件列表必须位于 call plug#begin() 和 call plug#end() 之间
+call plug#begin('~/.vim/bundle')
 
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'flazz/vim-colorschemes'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'nathanaelkane/vim-indent-guides'
-Plugin 'derekwyatt/vim-fswitch'
-Plugin 'vim-scripts/matchit.zip'
-Plugin 'kshenoy/vim-signature'
-Plugin 'majutsushi/tagbar'
-Plugin 'godlygeek/tabular'
-Plugin 'rking/ag.vim'
-Plugin 'Chun-Yang/vim-action-ag'
-Plugin 'terryma/vim-multiple-cursors'
-"Plugin 'mhinz/vim-signify' 显示svn，git等修改 暂时不用
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'SirVer/ultisnips'
-Plugin 'derekwyatt/vim-protodef'
-Plugin 'scrooloose/nerdtree'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-repeat'
-Plugin 'sjl/gundo.vim'
-Plugin 'easymotion/vim-easymotion'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'tacahiroy/ctrlp-funky'
-Plugin 'vim-scripts/DoxygenToolkit.vim'
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'vim-syntastic/syntastic'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'bronson/vim-trailing-whitespace'
-Plugin 'vasconcelloslf/vim-interestingwords' " 使用<leader>k高亮, <leader>K清除, n/N跳转
+Plug 'flazz/vim-colorschemes'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'Yggdroot/indentLine'
+Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdcommenter'
+Plug 'derekwyatt/vim-fswitch'
+Plug 'derekwyatt/vim-protodef'
+Plug 'majutsushi/tagbar'
+Plug 'kshenoy/vim-signature'
+Plug 'SirVer/ultisnips'
+Plug 'godlygeek/tabular'
+Plug 'vim-scripts/DoxygenToolkit.vim'
+Plug 'vim-syntastic/syntastic'
+Plug 'Valloric/YouCompleteMe'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'sjl/gundo.vim'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'tacahiroy/ctrlp-funky'
+Plug 'luochen1990/rainbow'
+Plug 'bsdelf/bufferhint'
+Plug 'easymotion/vim-easymotion'
+Plug 'vim-scripts/matchit.zip'
+Plug 'rking/ag.vim'
+Plug 'Chun-Yang/vim-action-ag'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'jiangmiao/auto-pairs'
+Plug 'bronson/vim-trailing-whitespace'
+Plug 'vasconcelloslf/vim-interestingwords' " 使用<leader>k高亮, <leader>K清除, n/N跳转
 
 " 插件列表结束
-call vundle#end()
-filetype plugin indent on
+call plug#end()
 
 "=========================================
 " <<插件安装
@@ -175,43 +183,262 @@ filetype plugin indent on
 
 
 "=========================================
-" 其他>>
+" >>插件配置
 "=========================================
 
+">>>colorscheme
 " 配色方案
-"set background=light
+"set background=dark
 set t_Co=256
 
 "colorscheme solarized
 "let g:solarized_termtrans=1
 "let g:solarized_contrast="normal"
 "let g:solarized_visibility="normal"
+"let g:solarized_termcolors=256"
 
-"colorscheme molokai
-"let g:molokai_original = 1
+colorscheme molokai
+let g:molokai_original = 1
+let g:rehash256 = 1
 
-colorscheme gruvbox
-"colorscheme phd
-"colorscheme hybrid
-"color ron
+"colorscheme gruvbox
+"<<<colorscheme
 
-" 让配置变更立即生效
-"autocmd BufWritePost $MYVIMRC source $MYVIMRC
 
-" 启动后定位到上次关闭光标位置
-if has("autocmd")
-    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+">>>airline
+"let g:airline_theme="hybrid"
+let g:airline_theme="molokai"
+"let g:airline_theme="gruvbox"
+"let g:airline_theme="solarized"
+"let g:airline_theme="dark"
+
+" 这个是安装字体后 必须设置此项"
+let g:airline_powerline_fonts = 1
+
+" 显示buffer栏和buffer编号
+"let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#tabline#buffer_nr_show = 1
+
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
 endif
+let g:airline_left_sep = '▶'
+let g:airline_left_alt_sep = '❯'
+let g:airline_right_sep = '◀'
+let g:airline_right_alt_sep = '❮'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.linenr = '¶'
+"<<<airline
 
-" 将外部命令 wmctrl 控制窗口最大化的命令行参数封装成一个 vim 的函数
-fun! ToggleFullscreen()
-	call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")
-endf
-"" 启动 vim 时自动全屏
-"autocmd VimEnter * call ToggleFullscreen()
+
+">>>nerdtree
+" 工程文件浏览
+" 使用 NERDTree 插件查看工程文件。设置快捷键，速记：file list
+map <F3> :NERDTreeToggle<CR>
+imap <F3> <ESC>:NERDTreeToggle<CR>
+" 设置 NERDTree 子窗口宽度
+let NERDTreeWinSize=32
+" 设置 NERDTree 子窗口位置
+let NERDTreeWinPos="left"
+" 显示隐藏文件
+let NERDTreeShowHidden=1
+" NERDTree 子窗口中不显示冗余帮助信息
+let NERDTreeMinimalUI=1
+" 删除文件时自动删除文件对应 buffer
+let NERDTreeAutoDeleteBuffer=1
+" 当打开vim且没有文件时自动打开NERDTree
+autocmd vimenter * if !argc() | NERDTree | endif
+" 打开vim自动打开NERDTree
+"autocmd vimenter * NERDTree
+" 只剩NERDTree时自动关闭
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+"<<<nerdtree
+
+
+">>>fswitch
+" *.cpp 和 *.h 间切换
+nmap <silent> <Leader>A :FSHere<cr>
+"<<<fswitch
+
+
+">>>protodef
+" 由接口快速生成实现框架
+" 设置 pullproto.pl 脚本路径
+let g:protodefprotogetter='~/.vim/bundle/vim-protodef/pullproto.pl'
+" 成员函数的实现顺序与声明顺序一致
+let g:disable_protodef_sorting=1
+"<protodef
+
+
+">>>tagbar
+" 设置 tagbar 子窗口的位置出现在主编辑区的右边
+let tagbar_left=0
+" 设置显示／隐藏标签列表子窗口的快捷键
+map <F2> :TagbarToggle<CR>
+imap <F2> <ESC>:TagbarToggle<CR>
+" 设置标签子窗口的宽度
+let tagbar_width=32
+" tagbar 子窗口中不显示冗余帮助信息
+let g:tagbar_compact=1
+" 设置 ctags 对哪些代码标识符生成标签
+let g:tagbar_type_cpp = {
+     \ 'ctagstype' : 'c++',
+     \ 'kinds'     : [
+         \ 'c:classes:0:1',
+         \ 'd:macros:0:1',
+         \ 'e:enumerators:0:0',
+         \ 'f:functions:0:1',
+         \ 'g:enumeration:0:1',
+         \ 'l:local:0:1',
+         \ 'm:members:0:1',
+         \ 'n:namespaces:0:1',
+         \ 'p:functions_prototypes:0:1',
+         \ 's:structs:0:1',
+         \ 't:typedefs:0:1',
+         \ 'u:unions:0:1',
+         \ 'v:global:0:1',
+         \ 'x:external:0:1'
+     \ ],
+     \ 'sro'        : '::',
+     \ 'kind2scope' : {
+         \ 'g' : 'enum',
+         \ 'n' : 'namespace',
+         \ 'c' : 'class',
+         \ 's' : 'struct',
+         \ 'u' : 'union'
+     \ },
+     \ 'scope2kind' : {
+         \ 'enum'      : 'g',
+         \ 'namespace' : 'n',
+         \ 'class'     : 'c',
+         \ 'struct'    : 's',
+         \ 'union'     : 'u'
+     \ }
+\ }
+"<<<tagbar
+
+
+">>>ultisnips
+let g:UltiSnipsSnippetDirectories=["mysnippets"] " snippets位置
+let g:UltiSnipsExpandTrigger="<leader><tab>" " 防止和ycm冲突
+let g:UltiSnipsJumpForwardTrigger="<leader><tab>"
+let g:UltiSnipsJumpBackwardTrigger="<leader><s-tab>"
+"<<<ultisnips
+
+
+">>>tabular
+nmap <Leader>a= :Tabularize /=<CR>
+vmap <Leader>a= :Tabularize /=<CR>
+nmap <Leader>a: :Tabularize /:\zs<CR>
+vmap <Leader>a: :Tabularize /:\zs<CR>
+"<<<tabular
+
+
+">>>Doxygen
+let g:DoxygenToolkit_blockHeader="--------------------------------------------------------------------------"
+let g:DoxygenToolkit_blockFooter="----------------------------------------------------------------------------"
+let g:DoxygenToolkit_authorName="zhanghf@zailingtech.com"
+let g:DoxygenToolkit_versionString="1.0"
+map <Leader>da <ESC>gg:DoxAuthor<CR>
+map <Leader>df <ESC>:Dox<CR>
+"<<<Doxygen
+
+
+">>>syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+"<<<syntastic
+
+
+">>>ycm
+" 补全菜单配色
+" 菜单
+"highlight Pmenu ctermfg=2 ctermbg=3 guifg=#005f87 guibg=#EEE8D5
+" 选中项
+"highlight PmenuSel ctermfg=2 ctermbg=3 guifg=#AFD700 guibg=#106900"
+
+" 不用每次提示加载.ycm_extra_conf.py文件
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+
+" 关闭ycm的syntastic
+let g:ycm_show_diagnostics_ui = 0
+
+"let g:ycm_filetype_whitelist = {'c' : 1, 'cpp' : 1, 'java' : 1, 'python' : 1}
+let g:ycm_filetype_blacklist = {
+            \ 'tagbar' : 1,
+            \ 'qf' : 1,
+            \ 'notes' : 1,
+            \ 'markdown' : 1,
+            \ 'unite' : 1,
+            \ 'text' : 1,
+            \ 'vimwiki' : 1,
+            \ 'pandoc' : 1,
+            \ 'infolog' : 1,
+            \ 'mail' : 1,
+            \ 'mundo': 1,
+            \ 'fzf': 1,
+            \ 'ctrlp' : 1
+            \}
+
+" 评论中也应用补全
+let g:ycm_complete_in_comments = 1
+
+" 两个字开始补全
+let g:ycm_min_num_of_chars_for_completion = 2
+let g:ycm_seed_identifiers_with_syntax = 1
+let g:ycm_semantic_triggers =  {'c' : ['->', '.'], 'objc' : ['->', '.'], 'ocaml' : ['.', '#'], 'cpp,objcpp' : ['->', '.', '::'], 'php' : ['->', '::'], 'cs,java,javascript,vim,coffee,python,scala,go' : ['.'], 'ruby' : ['.', '::']}
+nnoremap <leader>j :YcmCompleter GoToDefinitionElseDeclaration<CR>"
+"<<<ycm
+
+
+">>>vim-multiple-cursors
+let g:multi_cursor_next_key='<S-M>' " 选中
+let g:multi_cursor_skip_key='<S-K>' " 跳过
+"<<<vim-multiple-cursors
+
+
+">>>gundo
+"保存 undo 历史。必须先行创建 .undo_history/
+set undofile
+set undodir=~/.undo_history/
+
+" 调用 gundo 树
+nnoremap <Leader>ud :GundoToggle<CR>
+"<<<gundo
+
+
+">>>ctrlp
+" ctrlp设置
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.png,*.jpg,*.gif     " MacOSX/Linux
+"set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe,*.pyc,*.png,*.jpg,*.gif  " Windows
+
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_custom_ignore = '\v\.(exe|so|dll)$'
+let g:ctrlp_extensions = ['funky']
+"<<<ctrlp
+
+
+">>>rainbow
+let g:rainbow_active = 1
+"<<<rainbow
+
+
+">>>bufferhint
+nnoremap - :call bufferhint#Popup()<cr>
+nnoremap \ :call bufferhint#LoadPrevious()<cr>
+"<<<bufferhint
+
+
 
 "=========================================
-" <<其他
+" <<插件配置
 "=========================================
 
 
@@ -248,18 +475,14 @@ nnoremap <C-k> <C-W>k
 " 跳转至下方的子窗口
 nnoremap <C-j> <C-W>j
 
-" 跳转到下一个buffer
-map <Leader>l <ESC>:bnext<CR>
-" 跳转到上一个buffer
-map <Leader>h <ESC>:bprevious<CR>
-
 
 " 库信息参考
 " 启用:Man命令查看各类man信息
 source $VIMRUNTIME/ftplugin/man.vim
-
 " 定义:Man命令查看各类man信息的快捷键
 nmap <Leader>man :Man 3 <cword><CR>
+
+nmap <F4> :!ctags -R --sort=1 --c++-kinds=+p --fields=+iaS --extra=+q --language-force=C++ .<cr><cr>
 
 "C，C++ 按F5编译运行
 map <F7> :call CompileRunGcc()<CR>
@@ -278,9 +501,6 @@ func! CompileRunGcc()
         :!time bash %
     elseif &filetype == 'python'
         exec "!time python2.7 %"
-    elseif &filetype == 'mkd'
-        exec "!~/.vim/markdown.pl % > %.html &"
-        exec "!firefox %.html &"
     endif
 endfunc
 
@@ -326,254 +546,16 @@ nnoremap <Leader>rcw :call Replace(1, 1, input('Replace '.expand('<cword>').' wi
 nnoremap <Leader>rwc :call Replace(1, 1, input('Replace '.expand('<cword>').' with: '))<CR>
 
 
-" 环境恢复
-" 设置环境保存项
-set sessionoptions="blank,globals,localoptions,tabpages,sesdir,folds,help,options,resize,winpos,winsize"
-
-" 保存 undo 历史。必须先行创建 .undo_history/
-set undodir=~/.undo_history/
-set undofile
-
-" 保存快捷键
-"map <leader>ss :mksession! my.vim<cr> :wviminfo! my.viminfo<cr>
-map <leader>ss :mksession! my.vim<cr>
-
-" 恢复快捷键
-"map <leader>rs :source my.vim<cr> :rviminfo my.viminfo<cr>
-map <leader>rs :source my.vim<cr>
-
-
+" 将外部命令 wmctrl 控制窗口最大化的命令行参数封装成一个 vim 的函数
+fun! ToggleFullscreen()
+	call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")
+endf
+" 启动 vim 时自动全屏
+"autocmd VimEnter * call ToggleFullscreen()
 " 全屏开/关快捷键
 "map <silent> <F11> :call ToggleFullscreen()<CR>
 
 "=========================================
 " <<快捷键
-"=========================================
-
-
-
-
-
-"=========================================
-" 插件配置>>
-"=========================================
-
-" airline
-"let g:airline_theme="hybrid"
-"let g:airline_theme="molokai"
-"let g:airline_theme="gruvbox"
-"let g:airline_theme="solarized"
-"let g:airline_theme="dark"
-
-" 这个是安装字体后 必须设置此项"
-let g:airline_powerline_fonts = 1
-
-" 显示buffer栏和buffer编号
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#buffer_nr_show = 1
-
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-endif
-let g:airline_left_sep = '▶'
-let g:airline_left_alt_sep = '❯'
-let g:airline_right_sep = '◀'
-let g:airline_right_alt_sep = '❮'
-let g:airline_symbols.linenr = '¶'
-let g:airline_symbols.branch = '⎇'
-let g:airline_symbols.linenr = '¶'
-
-
-" 缩进可视化插件 Indent Guides
-" 随 vim 自启动
-let g:indent_guides_enable_on_vim_startup=1
-" 从第二层开始可视化显示缩进
-let g:indent_guides_start_level=2
-" 色块宽度
-let g:indent_guides_guide_size=1
-" 快捷键 i 开/关缩进可视化
-"nmap <silent> <Leader>i <Plug>IndentGuidesToggle
-" 当background为dark
-hi IndentGuidesOdd  ctermbg=black
-hi IndentGuidesEven ctermbg=darkgrey
-" 当background为light
-"hi IndentGuidesOdd  ctermbg=white
-"hi IndentGuidesEven ctermbg=lightgrey
-
-
-" fswitch
-" *.cpp 和 *.h 间切换
-nmap <silent> <Leader>A :FSHere<cr>
-
-
-" 设置 tagbar 子窗口的位置出现在主编辑区的右边
-let tagbar_left=0
-" 设置显示／隐藏标签列表子窗口的快捷键
-map <F2> :TagbarToggle<CR>
-imap <F2> <ESC>:TagbarToggle<CR>
-" 设置标签子窗口的宽度
-"let tagbar_width=32
-" tagbar 子窗口中不显示冗余帮助信息
-let g:tagbar_compact=1
-" 设置 ctags 对哪些代码标识符生成标签
-let g:tagbar_type_cpp = {
-     \ 'ctagstype' : 'c++',
-     \ 'kinds'     : [
-         \ 'c:classes:0:1',
-         \ 'd:macros:0:1',
-         \ 'e:enumerators:0:0',
-         \ 'f:functions:0:1',
-         \ 'g:enumeration:0:1',
-         \ 'l:local:0:1',
-         \ 'm:members:0:1',
-         \ 'n:namespaces:0:1',
-         \ 'p:functions_prototypes:0:1',
-         \ 's:structs:0:1',
-         \ 't:typedefs:0:1',
-         \ 'u:unions:0:1',
-         \ 'v:global:0:1',
-         \ 'x:external:0:1'
-     \ ],
-     \ 'sro'        : '::',
-     \ 'kind2scope' : {
-         \ 'g' : 'enum',
-         \ 'n' : 'namespace',
-         \ 'c' : 'class',
-         \ 's' : 'struct',
-         \ 'u' : 'union'
-     \ },
-     \ 'scope2kind' : {
-         \ 'enum'      : 'g',
-         \ 'namespace' : 'n',
-         \ 'class'     : 'c',
-         \ 'struct'    : 's',
-         \ 'union'     : 'u'
-     \ }
-\ }
-
-
-" 快捷替换 multi_cursor
-let g:multi_cursor_next_key='<S-M>'
-let g:multi_cursor_skip_key='<S-K>'
-
-
-" 模板补全UltiSnips
-let g:UltiSnipsSnippetDirectories=["mysnippets"]
-let g:UltiSnipsExpandTrigger="<leader><tab>"
-let g:UltiSnipsJumpForwardTrigger="<leader><tab>"
-let g:UltiSnipsJumpBackwardTrigger="<leader><s-tab>"
-
-
-" 由接口快速生成实现框架protodef
-" 设置 pullproto.pl 脚本路径
-let g:protodefprotogetter='~/.vim/bundle/vim-protodef/pullproto.pl'
-" 成员函数的实现顺序与声明顺序一致
-let g:disable_protodef_sorting=1
-
-
-" 工程文件浏览
-" 使用 NERDTree 插件查看工程文件。设置快捷键，速记：file list
-map <F3> :NERDTreeToggle<CR>
-imap <F3> <ESC>:NERDTreeToggle<CR>
-" 设置 NERDTree 子窗口宽度
-"let NERDTreeWinSize=22
-" 设置 NERDTree 子窗口位置
-let NERDTreeWinPos="left"
-" 显示隐藏文件
-let NERDTreeShowHidden=1
-" NERDTree 子窗口中不显示冗余帮助信息
-let NERDTreeMinimalUI=1
-" 删除文件时自动删除文件对应 buffer
-let NERDTreeAutoDeleteBuffer=1
-" 当打开vim且没有文件时自动打开NERDTree
-autocmd vimenter * if !argc() | NERDTree | endif
-" 打开vim自动打开NERDTree
-"autocmd vimenter * NERDTree
-" 只剩NERDTree时自动关闭
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-
-" 调用 gundo 树
-nnoremap <Leader>ud :GundoToggle<CR>
-
-
-" ctrlp设置
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.png,*.jpg,*.gif     " MacOSX/Linux
-"set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe,*.pyc,*.png,*.jpg,*.gif  " Windows
-
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-let g:ctrlp_custom_ignore = '\v\.(exe|so|dll)$'
-let g:ctrlp_extensions = ['funky']
-
-
-" Doxygen
-let g:DoxygenToolkit_blockHeader="--------------------------------------------------------------------------"
-let g:DoxygenToolkit_blockFooter="----------------------------------------------------------------------------"
-let g:DoxygenToolkit_authorName="zhanghf@zailingtech.com"
-let g:DoxygenToolkit_versionString="1.0"
-map <Leader>da <ESC>gg:DoxAuthor<CR>
-map <Leader>df <ESC>:Dox<CR>
-
-
-" syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-
-" ycm
-" 补全菜单配色
-" 菜单
-"highlight Pmenu ctermfg=2 ctermbg=3 guifg=#005f87 guibg=#EEE8D5
-" 选中项
-"highlight PmenuSel ctermfg=2 ctermbg=3 guifg=#AFD700 guibg=#106900"
-
-" 不用每次提示加载.ycm_extra_conf.py文件
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
-
-" 关闭ycm的syntastic
-let g:ycm_show_diagnostics_ui = 0
-
-"let g:ycm_filetype_whitelist = {'c' : 1, 'cpp' : 1, 'java' : 1, 'python' : 1}
-let g:ycm_filetype_blacklist = {
-            \ 'tagbar' : 1,
-            \ 'qf' : 1,
-            \ 'notes' : 1,
-            \ 'markdown' : 1,
-            \ 'unite' : 1,
-            \ 'text' : 1,
-            \ 'vimwiki' : 1,
-            \ 'pandoc' : 1,
-            \ 'infolog' : 1,
-            \ 'mail' : 1,
-            \ 'mundo': 1,
-            \ 'fzf': 1,
-            \ 'ctrlp' : 1
-            \}
-
-" 评论中也应用补全
-let g:ycm_complete_in_comments = 1
-
-" 两个字开始补全
-let g:ycm_min_num_of_chars_for_completion = 2
-let g:ycm_seed_identifiers_with_syntax = 1
-let g:ycm_semantic_triggers =  {'c' : ['->', '.'], 'objc' : ['->', '.'], 'ocaml' : ['.', '#'], 'cpp,objcpp' : ['->', '.', '::'], 'php' : ['->', '::'], 'cs,java,javascript,vim,coffee,python,scala,go' : ['.'], 'ruby' : ['.', '::']}
-nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>"
-
-
-" Tabular
-nmap <Leader>a= :Tabularize /=<CR>
-vmap <Leader>a= :Tabularize /=<CR>
-nmap <Leader>a: :Tabularize /:\zs<CR>
-vmap <Leader>a: :Tabularize /:\zs<CR>
-
-
-"=========================================
-" <<插件配置
 "=========================================
 
