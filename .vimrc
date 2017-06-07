@@ -109,7 +109,7 @@ set formatoptions+=m
 set formatoptions+=B
 
 " 让配置变更立即生效
-autocmd BufWritePost $MYVIMRC source $MYVIMRC
+"autocmd BufWritePost $MYVIMRC source $MYVIMRC
 
 " 启动后定位到上次关闭光标位置
 if has("autocmd")
@@ -144,7 +144,6 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'Yggdroot/indentLine'
-Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
 Plug 'derekwyatt/vim-fswitch'
 Plug 'derekwyatt/vim-protodef'
@@ -156,20 +155,24 @@ Plug 'vim-scripts/DoxygenToolkit.vim'
 Plug 'vim-syntastic/syntastic'
 Plug 'Valloric/YouCompleteMe'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'sjl/gundo.vim'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'tacahiroy/ctrlp-funky'
+"Plug 'sjl/gundo.vim'
 Plug 'luochen1990/rainbow'
-Plug 'bsdelf/bufferhint'
 Plug 'easymotion/vim-easymotion'
 Plug 'vim-scripts/matchit.zip'
-Plug 'rking/ag.vim'
-Plug 'Chun-Yang/vim-action-ag'
+"Plug 'rking/ag.vim'
+"Plug 'Chun-Yang/vim-action-ag'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'jiangmiao/auto-pairs'
-Plug 'bronson/vim-trailing-whitespace'
 Plug 'vasconcelloslf/vim-interestingwords' " 使用<leader>k高亮, <leader>K清除, n/N跳转
+Plug 'Shougo/unite.vim'
+Plug 'shougo/unite-outline'
+Plug 'shougo/neomru.vim'
+Plug 'shougo/vimfiler.vim'
+Plug 'shougo/neoyank.vim'
+Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+Plug 'Shougo/vimshell.vim'
+Plug 'Shougo/unite-session'
 
 " 插件列表结束
 call plug#end()
@@ -230,30 +233,6 @@ let g:airline_symbols.linenr = '¶'
 let g:airline_symbols.branch = '⎇'
 let g:airline_symbols.linenr = '¶'
 "<<<airline
-
-
-">>>nerdtree
-" 工程文件浏览
-" 使用 NERDTree 插件查看工程文件。设置快捷键，速记：file list
-map <F3> :NERDTreeToggle<CR>
-imap <F3> <ESC>:NERDTreeToggle<CR>
-" 设置 NERDTree 子窗口宽度
-let NERDTreeWinSize=32
-" 设置 NERDTree 子窗口位置
-let NERDTreeWinPos="left"
-" 显示隐藏文件
-let NERDTreeShowHidden=1
-" NERDTree 子窗口中不显示冗余帮助信息
-let NERDTreeMinimalUI=1
-" 删除文件时自动删除文件对应 buffer
-let NERDTreeAutoDeleteBuffer=1
-" 当打开vim且没有文件时自动打开NERDTree
-autocmd vimenter * if !argc() | NERDTree | endif
-" 打开vim自动打开NERDTree
-"autocmd vimenter * NERDTree
-" 只剩NERDTree时自动关闭
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-"<<<nerdtree
 
 
 ">>>fswitch
@@ -406,35 +385,158 @@ let g:multi_cursor_skip_key='<S-K>' " 跳过
 
 ">>>gundo
 "保存 undo 历史。必须先行创建 .undo_history/
-set undofile
-set undodir=~/.undo_history/
+"set undofile
+"set undodir=~/.undo_history/
 
 " 调用 gundo 树
-nnoremap <Leader>ud :GundoToggle<CR>
+"nnoremap <Leader>ud :GundoToggle<CR>
 "<<<gundo
-
-
-">>>ctrlp
-" ctrlp设置
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.png,*.jpg,*.gif     " MacOSX/Linux
-"set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe,*.pyc,*.png,*.jpg,*.gif  " Windows
-
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-let g:ctrlp_custom_ignore = '\v\.(exe|so|dll)$'
-let g:ctrlp_extensions = ['funky']
-"<<<ctrlp
 
 
 ">>>rainbow
 let g:rainbow_active = 1
 "<<<rainbow
 
+">>>Unite
+nmap <Space> :Unite<cr>
+call unite#custom#source('codesearch', 'max_candidates', 30)
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#filters#sorter_default#use(['sorter_rank'])
+let g:unite_source_grep_max_candidates = get(g:,
+      \ 'unite_source_grep_max_candidates', 200)
+let g:unite_source_grep_default_opts = get(g:,
+      \ 'unite_source_grep_default_opts',
+      \ '-iRHn'
+      \ . " --exclude='tags'"
+      \ . " --exclude='cscope*'"
+      \ . " --exclude='*.svn*'"
+      \ . " --exclude='*.log*'"
+      \ . " --exclude='*tmp*'"
+      \ . " --exclude-dir='**/tmp'"
+      \ . " --exclude-dir='CVS'"
+      \ . " --exclude-dir='.svn'"
+      \ . " --exclude-dir='.git'"
+      \ . " --exclude-dir='node_modules'")
+if executable('hw')
+  " Use hw (highway)
+  " https://github.com/tkengo/highway
+  let g:unite_source_grep_command = 'hw'
+  let g:unite_source_grep_default_opts = '--no-group --no-color'
+  let g:unite_source_grep_recursive_opt = ''
+elseif executable('ag')
+  " Use ag (the silver searcher)
+  " https://github.com/ggreer/the_silver_searcher
+  let g:unite_source_grep_command = 'ag'
+  let g:unite_source_grep_default_opts = '-i --line-numbers --nocolor --nogroup --hidden --ignore ' .
+        \ '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
+  let g:unite_source_grep_recursive_opt = ''
+elseif executable('pt')
+  " Use pt (the platinum searcher)
+  " https://github.com/monochromegane/the_platinum_searcher
+  let g:unite_source_grep_command = 'pt'
+  let g:unite_source_grep_default_opts = '--nogroup --nocolor'
+  let g:unite_source_grep_recursive_opt = ''
+elseif executable('ack-grep')
+  " Use ack
+  " http://beyondgrep.com/
+  let g:unite_source_grep_command = 'ack-grep'
+  let g:unite_source_grep_default_opts = '-i --no-heading --no-color -k -H'
+  let g:unite_source_grep_recursive_opt = ''
+elseif executable('ack')
+  let g:unite_source_grep_command = 'ack'
+  let g:unite_source_grep_default_opts = '-i --no-heading --no-color -k -H'
+  let g:unite_source_grep_recursive_opt = ''
+elseif executable('jvgrep')
+  " Use jvgrep
+  " https://github.com/mattn/jvgrep
+  let g:unite_source_grep_command = 'jvgrep'
+  let g:unite_source_grep_default_opts = '-i --exclude ''\.(git|svn|hg|bzr)'''
+  let g:unite_source_grep_recursive_opt = '-R'
+elseif executable('beagrep')
+  " Use beagrep
+  " https://github.com/baohaojun/beagrep
+  let g:unite_source_grep_command = 'beagrep'
+endif
+let g:unite_source_rec_async_command = get(g:,
+      \ 'unite_source_rec_async_command',
+      \ ['ag', '--follow', '--nocolor', '--nogroup',
+      \  '--hidden', '-g', ''])
+"<<<Unite
 
-">>>bufferhint
-nnoremap - :call bufferhint#Popup()<cr>
-nnoremap \ :call bufferhint#LoadPrevious()<cr>
-"<<<bufferhint
+">>>vimfiler
+map <F3> :VimFilerExplorer<CR>
+imap <F3> <ESC>:VimFilerExplorer<CR>
+let g:vimfiler_as_default_explorer = get(g:, 'vimfiler_as_default_explorer', 1)
+let g:vimfiler_restore_alternate_file = get(g:, 'vimfiler_restore_alternate_file', 1)
+let g:vimfiler_tree_indentation = get(g:, 'vimfiler_tree_indentation', 1)
+let g:vimfiler_tree_leaf_icon = get(g:, 'vimfiler_tree_leaf_icon', '')
+let g:vimfiler_tree_opened_icon = get(g:, 'vimfiler_tree_opened_icon', '▼')
+let g:vimfiler_tree_closed_icon = get(g:, 'vimfiler_tree_closed_icon', '▷')
+let g:vimfiler_file_icon = get(g:, 'vimfiler_file_icon', '')
+let g:vimfiler_readonly_file_icon = get(g:, 'vimfiler_readonly_file_icon', '*')
+let g:vimfiler_marked_file_icon = get(g:, 'vimfiler_marked_file_icon', '√')
+"let g:vimfiler_preview_action = 'auto_preview'
+let g:vimfiler_ignore_pattern = get(g:, 'vimfiler_ignore_pattern', [
+      \ '^\.git$',
+      \ '^\.DS_Store$',
+      \ '^\.init\.vim-rplugin\~$',
+      \ '^\.netrwhist$',
+      \ '\.class$'
+      \])
+call vimfiler#custom#profile('default', 'context', {
+      \ 'explorer' : 1,
+      \ 'winwidth' : 30,
+      \ 'winminwidth' : 30,
+      \ 'toggle' : 1,
+      \ 'auto_expand': 1,
+      \ 'direction' : 'rightbelow',
+      \ 'explorer_columns' : 30,
+      \ 'parent': 0,
+      \ 'status' : 1,
+      \ 'safe' : 0,
+      \ 'split' : 1,
+      \ 'hidden': 1,
+      \ 'no_quit' : 1,
+      \ 'force_hide' : 0,
+      \ })
 
+"catch
+"endtry
+augroup vfinit
+  au!
+  autocmd FileType vimfiler call s:vimfilerinit()
+  autocmd BufEnter * if (!has('vim_starting') && winnr('$') == 1 && &filetype ==# 'vimfiler') |
+        \ q | endif
+augroup END
+function! s:vimfilerinit()
+  setl nonumber
+  setl norelativenumber
+
+  silent! nunmap <buffer> <Space>
+  silent! nunmap <buffer> <C-l>
+  silent! nunmap <buffer> <C-j>
+  silent! nunmap <buffer> E
+  silent! nunmap <buffer> gr
+  silent! nunmap <buffer> gf
+  silent! nunmap <buffer> -
+  silent! nunmap <buffer> s
+
+  nnoremap <silent><buffer> gr  :<C-u>Denite grep:<C-R>=<SID>selected()<CR> -buffer-name=grep<CR>
+  nnoremap <silent><buffer> gf  :<C-u>Denite file_rec:<C-R>=<SID>selected()<CR><CR>
+  nnoremap <silent><buffer> gd  :<C-u>call <SID>change_vim_current_dir()<CR>
+  nnoremap <silent><buffer><expr> sg  vimfiler#do_action('vsplit')
+  nnoremap <silent><buffer><expr> sv  vimfiler#do_action('split')
+  nnoremap <silent><buffer><expr> st  vimfiler#do_action('tabswitch')
+  nmap <buffer> gx     <Plug>(vimfiler_execute_vimfiler_associated)
+  nmap <buffer> '      <Plug>(vimfiler_toggle_mark_current_line)
+  nmap <buffer> v      <Plug>(vimfiler_quick_look)
+  nmap <buffer> p      <Plug>(vimfiler_preview_file)
+  nmap <buffer> V      <Plug>(vimfiler_clear_mark_all_lines)
+  nmap <buffer> i      <Plug>(vimfiler_switch_to_history_directory)
+  nmap <buffer> <Tab>  <Plug>(vimfiler_switch_to_other_window)
+  nmap <buffer> <C-r>  <Plug>(vimfiler_redraw_screen)
+endf
+"<<<vimfiler
 
 
 "=========================================
