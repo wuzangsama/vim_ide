@@ -38,7 +38,8 @@ int main(int argc, char *argv[])
 endsnippet
 
 snippet for "for loop (for)"
-for (${2:i} = 0; $2 < ${1:count}; ${3:++$2})
+${2:container_iter} it = $1.begin();
+for (it = 0; it != ${1:container}.end(); ++it})
 {
 	${VISUAL}$0
 }
@@ -72,7 +73,7 @@ fprintf(${1:stderr}, "${2:%s}\n"${2/([^%]|%%)*(%.)?.*/(?2:, :\);)/}$3${2/([^%]|%
 endsnippet
 
 snippet if "if"
-if (${1:/* condition */})
+if ($1)
 {
 	${VISUAL}$0
 }
