@@ -349,6 +349,7 @@ let g:rainbow_active = 1
 ">>>Unite
 nmap <Space> :Unite<cr>
 nmap <Space>b :Unite buffer<cr> 
+nmap <Space>f :Unite file_rec<cr>i
 nmap <Space>g :Unite grep<cr>
 nmap <Space>r :Unite file_mru<cr>
 nmap <Space>o :Unite outline<cr>
