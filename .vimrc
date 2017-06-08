@@ -144,27 +144,24 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'Yggdroot/indentLine'
-Plug 'scrooloose/nerdcommenter'
+Plug 'easymotion/vim-easymotion'
+Plug 'vim-scripts/matchit.zip'
 Plug 'derekwyatt/vim-fswitch'
 Plug 'derekwyatt/vim-protodef'
-Plug 'majutsushi/tagbar'
 Plug 'kshenoy/vim-signature'
-Plug 'SirVer/ultisnips'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
 Plug 'godlygeek/tabular'
 Plug 'vim-scripts/DoxygenToolkit.vim'
 Plug 'vim-syntastic/syntastic'
 Plug 'Valloric/YouCompleteMe'
+Plug 'jiangmiao/auto-pairs'
+Plug 'luochen1990/rainbow'
+Plug 'scrooloose/nerdcommenter'
+Plug 'SirVer/ultisnips'
 Plug 'terryma/vim-multiple-cursors'
 "Plug 'sjl/gundo.vim'
-Plug 'luochen1990/rainbow'
-Plug 'easymotion/vim-easymotion'
-Plug 'vim-scripts/matchit.zip'
-"Plug 'rking/ag.vim'
-"Plug 'Chun-Yang/vim-action-ag'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-repeat'
-Plug 'jiangmiao/auto-pairs'
-Plug 'vasconcelloslf/vim-interestingwords' " 使用<leader>k高亮, <leader>K清除, n/N跳转
+Plug 'vim-scripts/Mark--Karkat' "多个高亮 <leader>m
 Plug 'Shougo/unite.vim'
 Plug 'shougo/unite-outline'
 Plug 'shougo/neomru.vim'
@@ -248,54 +245,6 @@ let g:protodefprotogetter='~/.vim/bundle/vim-protodef/pullproto.pl'
 " 成员函数的实现顺序与声明顺序一致
 let g:disable_protodef_sorting=1
 "<protodef
-
-
-">>>tagbar
-" 设置 tagbar 子窗口的位置出现在主编辑区的右边
-let tagbar_left=0
-" 设置显示／隐藏标签列表子窗口的快捷键
-map <F2> :TagbarToggle<CR>
-imap <F2> <ESC>:TagbarToggle<CR>
-" 设置标签子窗口的宽度
-let tagbar_width=32
-" tagbar 子窗口中不显示冗余帮助信息
-let g:tagbar_compact=1
-" 设置 ctags 对哪些代码标识符生成标签
-let g:tagbar_type_cpp = {
-     \ 'ctagstype' : 'c++',
-     \ 'kinds'     : [
-         \ 'c:classes:0:1',
-         \ 'd:macros:0:1',
-         \ 'e:enumerators:0:0',
-         \ 'f:functions:0:1',
-         \ 'g:enumeration:0:1',
-         \ 'l:local:0:1',
-         \ 'm:members:0:1',
-         \ 'n:namespaces:0:1',
-         \ 'p:functions_prototypes:0:1',
-         \ 's:structs:0:1',
-         \ 't:typedefs:0:1',
-         \ 'u:unions:0:1',
-         \ 'v:global:0:1',
-         \ 'x:external:0:1'
-     \ ],
-     \ 'sro'        : '::',
-     \ 'kind2scope' : {
-         \ 'g' : 'enum',
-         \ 'n' : 'namespace',
-         \ 'c' : 'class',
-         \ 's' : 'struct',
-         \ 'u' : 'union'
-     \ },
-     \ 'scope2kind' : {
-         \ 'enum'      : 'g',
-         \ 'namespace' : 'n',
-         \ 'class'     : 'c',
-         \ 'struct'    : 's',
-         \ 'union'     : 'u'
-     \ }
-\ }
-"<<<tagbar
 
 
 ">>>ultisnips
@@ -399,6 +348,10 @@ let g:rainbow_active = 1
 
 ">>>Unite
 nmap <Space> :Unite<cr>
+nmap <Space>b :Unite buffer<cr> 
+nmap <Space>g :Unite grep<cr>
+nmap <Space>r :Unite file_mru<cr>
+nmap <Space>o :Unite outline<cr>
 call unite#custom#source('codesearch', 'max_candidates', 30)
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
@@ -489,7 +442,6 @@ call vimfiler#custom#profile('default', 'context', {
       \ 'winminwidth' : 30,
       \ 'toggle' : 1,
       \ 'auto_expand': 1,
-      \ 'direction' : 'rightbelow',
       \ 'explorer_columns' : 30,
       \ 'parent': 0,
       \ 'status' : 1,
@@ -579,10 +531,10 @@ nnoremap <C-j> <C-W>j
 
 
 " 库信息参考
-" 启用:Man命令查看各类man信息
+" 启用;h命令查看各类man信息
 source $VIMRUNTIME/ftplugin/man.vim
-" 定义:Man命令查看各类man信息的快捷键
-nmap <Leader>man :Man 3 <cword><CR>
+" 定义;h命令查看各类man信息的快捷键
+nmap <Leader>h :Man 3 <cword><CR>
 
 nmap <F4> :!ctags -R --sort=1 --c++-kinds=+p --fields=+iaS --extra=+q --language-force=C++ .<cr><cr>
 
