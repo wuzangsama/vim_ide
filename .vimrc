@@ -457,6 +457,7 @@ call vimfiler#custom#profile('default', 'context', {
 augroup vfinit
   au!
   autocmd FileType vimfiler call s:vimfilerinit()
+  autocmd vimenter * if !argc() | VimFilerExplorer | endif " 无文件打开显示vimfiler
   autocmd BufEnter * if (!has('vim_starting') && winnr('$') == 1 && &filetype ==# 'vimfiler') |
         \ q | endif
 augroup END
