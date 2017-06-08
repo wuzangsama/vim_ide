@@ -21,6 +21,9 @@ set gcr=a:block-blinkon0
 " 启用鼠标
 set mouse=a
 
+" 退格键可用删除
+set backspace=indent,eol,start
+
 " 禁止显示滚动条
 set guioptions-=l
 set guioptions-=L
