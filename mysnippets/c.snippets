@@ -39,7 +39,7 @@ endsnippet
 
 snippet for "for loop (for)"
 ${2:container_iter} it = $1.begin();
-for (it = 0; it != ${1:container}.end(); ++it})
+for (; it != ${1:container}.end(); ++it)
 {
 	${VISUAL}$0
 }

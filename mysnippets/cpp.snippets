@@ -38,11 +38,11 @@ snippet cl "class .. (class)"
 class ${1:`!p snip.rv = snip.basename or "name"`}
 {
 public:
-	${1/(\w+).*/$1/} (${2:arguments});
+	${1/(\w+).*/$1/} ($2);
 	virtual ~${1/(\w+).*/$1/} ();
 
 private:
-	${0:/* data */}
+	$0
 };
 endsnippet
 
