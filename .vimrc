@@ -158,12 +158,11 @@ Plug 'godlygeek/tabular'
 Plug 'vim-scripts/DoxygenToolkit.vim'
 Plug 'vim-syntastic/syntastic'
 Plug 'Valloric/YouCompleteMe'
-Plug 'jiangmiao/auto-pairs'
+Plug 'raimondi/delimitmate'
 Plug 'luochen1990/rainbow'
 Plug 'scrooloose/nerdcommenter'
 Plug 'SirVer/ultisnips'
 Plug 'terryma/vim-multiple-cursors'
-"Plug 'sjl/gundo.vim'
 Plug 'vim-scripts/Mark--Karkat' "多个高亮 <leader>m
 Plug 'Shougo/unite.vim'
 Plug 'shougo/unite-outline'
@@ -173,6 +172,7 @@ Plug 'shougo/neoyank.vim'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'Shougo/vimshell.vim'
 Plug 'Shougo/unite-session'
+Plug 'Shougo/unite-build'
 
 " 插件列表结束
 call plug#end()
@@ -335,34 +335,22 @@ let g:multi_cursor_skip_key='<S-K>' " 跳过
 "<<<vim-multiple-cursors
 
 
-">>>gundo
-"保存 undo 历史。必须先行创建 .undo_history/
-"set undofile
-"set undodir=~/.undo_history/
-
-" 调用 gundo 树
-"nnoremap <Leader>ud :GundoToggle<CR>
-"<<<gundo
-
-
 ">>>rainbow
 let g:rainbow_active = 1
 "<<<rainbow
 
 ">>>Unite
-nmap <Space> :Unite<cr>
-nmap <Space>b :Unite buffer<cr> 
-nmap <Space>f :Unite file_rec<cr>i
-nmap <Space>g :Unite grep<cr>
-nmap <Space>r :Unite file_mru<cr>
-nmap <Space>o :Unite outline<cr>
+nnoremap <Space><Space> :Unite<cr>
+nnoremap <Space>b :Unite buffer<cr>
+nnoremap <Space>f :Unite file_rec<cr>i
+nnoremap <Space>g :Unite grep<cr><cr>
+nnoremap <Space>r :Unite file_mru<cr>
+nnoremap <Space>o :Unite outline<cr>
 call unite#custom#source('codesearch', 'max_candidates', 30)
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
-let g:unite_source_grep_max_candidates = get(g:,
-      \ 'unite_source_grep_max_candidates', 200)
-let g:unite_source_grep_default_opts = get(g:,
-      \ 'unite_source_grep_default_opts',
+let g:unite_source_grep_max_candidates = 200
+let g:unite_source_grep_default_opts =
       \ '-iRHn'
       \ . " --exclude='tags'"
       \ . " --exclude='cscope*'"
@@ -373,7 +361,7 @@ let g:unite_source_grep_default_opts = get(g:,
       \ . " --exclude-dir='CVS'"
       \ . " --exclude-dir='.svn'"
       \ . " --exclude-dir='.git'"
-      \ . " --exclude-dir='node_modules'")
+      \ . " --exclude-dir='node_modules'"
 if executable('hw')
   " Use hw (highway)
   " https://github.com/tkengo/highway
@@ -414,32 +402,29 @@ elseif executable('beagrep')
   " https://github.com/baohaojun/beagrep
   let g:unite_source_grep_command = 'beagrep'
 endif
-let g:unite_source_rec_async_command = get(g:,
-      \ 'unite_source_rec_async_command',
-      \ ['ag', '--follow', '--nocolor', '--nogroup',
-      \  '--hidden', '-g', ''])
+let g:unite_source_rec_async_command = ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', '']
 "<<<Unite
 
 ">>>vimfiler
 map <F3> :VimFilerExplorer<CR>
 imap <F3> <ESC>:VimFilerExplorer<CR>
-let g:vimfiler_as_default_explorer = get(g:, 'vimfiler_as_default_explorer', 1)
-let g:vimfiler_restore_alternate_file = get(g:, 'vimfiler_restore_alternate_file', 1)
-let g:vimfiler_tree_indentation = get(g:, 'vimfiler_tree_indentation', 1)
-let g:vimfiler_tree_leaf_icon = get(g:, 'vimfiler_tree_leaf_icon', '')
-let g:vimfiler_tree_opened_icon = get(g:, 'vimfiler_tree_opened_icon', '▼')
-let g:vimfiler_tree_closed_icon = get(g:, 'vimfiler_tree_closed_icon', '▷')
-let g:vimfiler_file_icon = get(g:, 'vimfiler_file_icon', '')
-let g:vimfiler_readonly_file_icon = get(g:, 'vimfiler_readonly_file_icon', '*')
-let g:vimfiler_marked_file_icon = get(g:, 'vimfiler_marked_file_icon', '√')
+let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_restore_alternate_file = 1
+let g:vimfiler_tree_indentation = 1
+let g:vimfiler_tree_leaf_icon = ''
+let g:vimfiler_tree_opened_icon = '▼'
+let g:vimfiler_tree_closed_icon = '▷'
+let g:vimfiler_file_icon = ''
+let g:vimfiler_readonly_file_icon = '*'
+let g:vimfiler_marked_file_icon = '√'
 "let g:vimfiler_preview_action = 'auto_preview'
-let g:vimfiler_ignore_pattern = get(g:, 'vimfiler_ignore_pattern', [
+let g:vimfiler_ignore_pattern = [
       \ '^\.git$',
       \ '^\.DS_Store$',
       \ '^\.init\.vim-rplugin\~$',
       \ '^\.netrwhist$',
       \ '\.class$'
-      \])
+      \]
 call vimfiler#custom#profile('default', 'context', {
       \ 'explorer' : 1,
       \ 'winwidth' : 30,
@@ -468,30 +453,6 @@ augroup END
 function! s:vimfilerinit()
   setl nonumber
   setl norelativenumber
-
-  silent! nunmap <buffer> <Space>
-  silent! nunmap <buffer> <C-l>
-  silent! nunmap <buffer> <C-j>
-  silent! nunmap <buffer> E
-  silent! nunmap <buffer> gr
-  silent! nunmap <buffer> gf
-  silent! nunmap <buffer> -
-  silent! nunmap <buffer> s
-
-  nnoremap <silent><buffer> gr  :<C-u>Denite grep:<C-R>=<SID>selected()<CR> -buffer-name=grep<CR>
-  nnoremap <silent><buffer> gf  :<C-u>Denite file_rec:<C-R>=<SID>selected()<CR><CR>
-  nnoremap <silent><buffer> gd  :<C-u>call <SID>change_vim_current_dir()<CR>
-  nnoremap <silent><buffer><expr> sg  vimfiler#do_action('vsplit')
-  nnoremap <silent><buffer><expr> sv  vimfiler#do_action('split')
-  nnoremap <silent><buffer><expr> st  vimfiler#do_action('tabswitch')
-  nmap <buffer> gx     <Plug>(vimfiler_execute_vimfiler_associated)
-  nmap <buffer> '      <Plug>(vimfiler_toggle_mark_current_line)
-  nmap <buffer> v      <Plug>(vimfiler_quick_look)
-  nmap <buffer> p      <Plug>(vimfiler_preview_file)
-  nmap <buffer> V      <Plug>(vimfiler_clear_mark_all_lines)
-  nmap <buffer> i      <Plug>(vimfiler_switch_to_history_directory)
-  nmap <buffer> <Tab>  <Plug>(vimfiler_switch_to_other_window)
-  nmap <buffer> <C-r>  <Plug>(vimfiler_redraw_screen)
 endf
 "<<<vimfiler
 
