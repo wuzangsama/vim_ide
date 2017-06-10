@@ -178,6 +178,7 @@ Plug 'ujihisa/unite-colorscheme'
 Plug 'tacroe/unite-mark'
 Plug 'sgur/unite-qf'
 Plug 'vim-scripts/vim-unite-cscope'
+Plug 'Shougo/vinarise.vim'
 
 " 插件列表结束
 call plug#end()
