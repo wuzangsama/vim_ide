@@ -498,13 +498,13 @@ nmap <Leader>Q :qa!<CR>
 nnoremap <C-w> <C-W>w
 nnoremap <tab> <C-W>w
 " 跳转至右方的窗口
-nnoremap <C-l> <C-W>l
+"nnoremap <C-l> <C-W>l
 " 跳转至方的窗口
-nnoremap <C-h> <C-W>h
+"nnoremap <C-h> <C-W>h
 " 跳转至上方的子窗口
-nnoremap <C-k> <C-W>k
+"nnoremap <C-k> <C-W>k
 " 跳转至下方的子窗口
-nnoremap <C-j> <C-W>j
+"nnoremap <C-j> <C-W>j
 
 
 " 库信息参考
