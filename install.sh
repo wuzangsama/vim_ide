@@ -9,12 +9,12 @@ if which apt-get >/dev/null; then
         perl libperl-dev \
         libtcl8.6 \
         ncurses-dev \
-        git cmake ctags silversearcher-ag curl
+        git cmake ctags silversearcher-ag curl cscope
 fi
 
 if which brew >/dev/null;then
     echo "mac 使用brew安装~"
-    brew install ruby ruby-dev perl libperl-dev cmake ctags git the_silver_searcher curl
+    brew install ruby ruby-dev perl libperl-dev cmake ctags git the_silver_searcher curl cscope
 fi
 
 cd ~

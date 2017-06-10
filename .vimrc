@@ -177,6 +177,7 @@ Plug 'thinca/vim-unite-history'
 Plug 'ujihisa/unite-colorscheme'
 Plug 'tacroe/unite-mark'
 Plug 'sgur/unite-qf'
+Plug 'vim-scripts/vim-unite-cscope'
 
 " 插件列表结束
 call plug#end()
@@ -357,6 +358,9 @@ nnoremap <Space>hy :Unite history/yank<cr>
 nnoremap <Space>mm :Unite build:make<cr>
 nnoremap <Space>mc :Unite build:make:clean<cr>
 nnoremap <Space>mi :Unite build:make:install<cr>
+nnoremap <Space>ci :Unite cscope/functions_calling<cr>
+nnoremap <Space>cb :Unite cscope/functions_called_by<cr>
+nnoremap <Space>cf :Unite cscope/find_this_symbol<cr>
 call unite#custom#source('codesearch', 'max_candidates', 30)
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
@@ -514,6 +518,8 @@ source $VIMRUNTIME/ftplugin/man.vim
 nmap <Leader>h :Man 3 <cword><CR>
 
 nmap <F4> :!ctags -R --sort=1 --c++-kinds=+p --fields=+iaS --extra=+q --language-force=C++ .<cr><cr>
+        \ :!find . -name "*.c" -o -name "*.cpp" -o -name "*.h" -o -name "*.hpp" > cscope.files<cr><cr>
+        \ :!cscope -q -R -b -i cscope.files<cr><cr>
 
 "C，C++ 按F5编译运行
 map <F7> :call CompileRunGcc()<CR>
