@@ -173,6 +173,10 @@ Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'Shougo/vimshell.vim'
 Plug 'Shougo/unite-session'
 Plug 'Shougo/unite-build'
+Plug 'thinca/vim-unite-history'
+Plug 'ujihisa/unite-colorscheme'
+Plug 'tacroe/unite-mark'
+Plug 'sgur/unite-qf'
 
 " 插件列表结束
 call plug#end()
@@ -346,6 +350,13 @@ nnoremap <Space>f :Unite file_rec<cr>i
 nnoremap <Space>g :Unite grep<cr><cr>
 nnoremap <Space>r :Unite file_mru<cr>
 nnoremap <Space>o :Unite outline<cr>
+nnoremap <Space>k :Unite mark<cr>
+nnoremap <Space>hs :Unite history/search<cr>
+nnoremap <Space>hc :Unite history/command<cr>
+nnoremap <Space>hy :Unite history/yank<cr>
+nnoremap <Space>mm :Unite build:make<cr>
+nnoremap <Space>mc :Unite build:make:clean<cr>
+nnoremap <Space>mi :Unite build:make:install<cr>
 call unite#custom#source('codesearch', 'max_candidates', 30)
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
