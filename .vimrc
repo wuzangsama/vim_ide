@@ -179,6 +179,7 @@ Plug 'tacroe/unite-mark'
 Plug 'sgur/unite-qf'
 Plug 'vim-scripts/vim-unite-cscope'
 Plug 'Shougo/vinarise.vim'
+Plug 'vim-scripts/Conque-GDB'
 
 " 插件列表结束
 call plug#end()
@@ -473,6 +474,11 @@ endf
 "<<<vimfiler
 
 
+">>>Conque-GDB
+nmap <F5> :ConqueGdb<cr>
+"<<<Conque-GDB
+
+
 "=========================================
 " <<插件配置
 "=========================================
@@ -522,7 +528,7 @@ nmap <F4> :!ctags -R --sort=1 --c++-kinds=+p --fields=+iaS --extra=+q --language
         \ :!find . -name "*.c" -o -name "*.cpp" -o -name "*.h" -o -name "*.hpp" > cscope.files<cr><cr>
         \ :!cscope -q -R -b -i cscope.files<cr><cr>
 
-"C，C++ 按F5编译运行
+"C，C++ 按F7编译运行
 map <F7> :call CompileRunGcc()<CR>
 func! CompileRunGcc()
     exec "w"
@@ -540,14 +546,6 @@ func! CompileRunGcc()
     elseif &filetype == 'python'
         exec "!time python2.7 %"
     endif
-endfunc
-
-"C,C++的调试
-map <F5> :call Rungdb()<CR>
-func! Rungdb()
-    exec "w"
-    exec "!g++ % -std=c++11 -g -o %<"
-    exec "!gdb ./%<"
 endfunc
 
 
