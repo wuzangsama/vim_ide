@@ -179,6 +179,8 @@ Plug 'tacroe/unite-mark'
 Plug 'sgur/unite-qf'
 Plug 'vim-scripts/vim-unite-cscope'
 Plug 'Shougo/vinarise.vim'
+Plug 'nvie/vim-togglemouse'
+Plug 'vim-scripts/vcscommand.vim'
 Plug 'vim-scripts/Conque-GDB'
 
 " 插件列表结束
