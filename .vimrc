@@ -526,6 +526,18 @@ source $VIMRUNTIME/ftplugin/man.vim
 " 定义;h命令查看各类man信息的快捷键
 nmap <Leader>h :Man 3 <cword><CR>
 
+if has("cscope")
+    set csprg=/usr/bin/cscope              "指定用来执行 cscope 的命令
+    set csto=1                             "先搜索tags标签文件，再搜索cscope数据库
+    set cst                                "使用|:cstag|(:cs find g)，而不是缺省的:tag
+    set nocsverb                           "不显示添加数据库是否成功
+    " add any database in current directory
+    if filereadable("cscope.out")
+        cs add cscope.out                   "添加cscope数据库
+    endif
+    set csverb                             "显示添加成功与否
+endif
+
 nmap <F4> :call GeneratorTags()<cr><cr><cr><cr>
 func! GeneratorTags()
     exec "!ctags -R --sort=1 --c++-kinds=+p --fields=+iaS --extra=+q --language-force=C++ ."
