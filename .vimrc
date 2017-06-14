@@ -145,6 +145,7 @@ call plug#begin('~/.vim/bundle')
 Plug 'flazz/vim-colorschemes'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'morhetz/gruvbox'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'Yggdroot/indentLine'
 Plug 'easymotion/vim-easymotion'
@@ -200,7 +201,7 @@ call plug#end()
 
 ">>>colorscheme
 " 配色方案
-"set background=dark
+set background=dark
 set t_Co=256
 
 "colorscheme solarized
@@ -209,18 +210,18 @@ set t_Co=256
 "let g:solarized_visibility="normal"
 "let g:solarized_termcolors=256"
 
-colorscheme molokai
-let g:molokai_original = 1
-let g:rehash256 = 1
+"colorscheme molokai
+"let g:molokai_original = 1
+"let g:rehash256 = 1
 
-"colorscheme gruvbox
+colorscheme gruvbox
 "<<<colorscheme
 
 
 ">>>airline
 "let g:airline_theme="hybrid"
-let g:airline_theme="molokai"
-"let g:airline_theme="gruvbox"
+"let g:airline_theme="molokai"
+let g:airline_theme="gruvbox"
 "let g:airline_theme="solarized"
 "let g:airline_theme="dark"
 
