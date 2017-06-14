@@ -526,9 +526,12 @@ source $VIMRUNTIME/ftplugin/man.vim
 " 定义;h命令查看各类man信息的快捷键
 nmap <Leader>h :Man 3 <cword><CR>
 
-nmap <F4> :!ctags -R --sort=1 --c++-kinds=+p --fields=+iaS --extra=+q --language-force=C++ .<cr><cr>
-        \ :!find . -name "*.c" -o -name "*.cpp" -o -name "*.h" -o -name "*.hpp" > cscope.files<cr><cr>
-        \ :!cscope -q -R -b -i cscope.files<cr><cr>
+nmap <F4> :call GeneratorTags()<cr><cr><cr><cr>
+func! GeneratorTags()
+    exec "!ctags -R --sort=1 --c++-kinds=+p --fields=+iaS --extra=+q --language-force=C++ ."
+    exec "!find . -name \"*.c\" -o -name \"*.cpp\" -o -name \"*.h\" -o -name \"*.hpp\" > cscope.files"
+    exec "!cscope -q -R -b -i cscope.files"
+endfunc
 
 "C，C++ 按F7编译运行
 map <F7> :call CompileRunGcc()<CR>
