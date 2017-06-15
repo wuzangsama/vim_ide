@@ -13,6 +13,40 @@ if which apt-get >/dev/null; then
         git cmake ctags silversearcher-ag curl cscope
 fi
 
+if which yum >/dev/null; then
+    sudo yum install python
+    sudo yum install python3
+    sudo yum install python-devel
+    sudo yum install python3-devel
+    sudo yum install ruby
+    sudo yum install ruby-devel
+    sudo yum install lua
+    sudo yum install lua-devel
+    sudo yum install perl
+    sudo yum install tcl
+    sudo yum install tcl-devel
+    sudo yum install ncurses
+    sudo yum install ncurses-libs
+    sudo yum install ncurses-c++-libs
+    sudo yum install ncurses-compat-libs
+    sudo yum install ncurses-devel
+    sudo yum install git
+    sudo yum install cmake
+    sudo yum install ctags
+    sudo yum install curl
+    sudo yum install cscope
+    sudo yum install ncurses-term
+
+    sudo yum install -y pcre-devel
+    sudo yum install xz-devel
+    sudo yum install automake
+    cd /usr/local/src
+    sudo git clone https://github.com/ggreer/the_silver_searcher.git
+    cd the_silver_searcher
+    sudo ./build.sh
+    sudo make install
+fi
+
 if which brew >/dev/null;then
     echo "mac 使用brew安装~"
     brew install ruby ruby-dev perl libperl-dev cmake ctags git the_silver_searcher curl cscope
@@ -28,8 +62,6 @@ cd vim
     --enable-multibyte \
     --enable-cscope=yes \
     --enable-perlinterp=yes \
-    --enable-rubyinterp=yes \
-    --with-ruby-command=/usr/bin/ruby \
     --enable-luainterp=yes \
     --enable-pythoninterp=yes \
     --with-python-config-dir=/usr/lib/python2.7/config-x86_64-linux-gnu/ \
