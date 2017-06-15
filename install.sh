@@ -49,6 +49,11 @@ cd ..
 rm -rf fonts
 
 
+echo "备份原来的vim配置~"
+mv -f ~/.vim ~/.vim_old
+mv -f ~/.vimrc ~/.vimrc_old
+
+
 echo "安装vim-plug插件~"
 cd ~
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
@@ -56,8 +61,6 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 
 
 echo "开始安装vim环境~"
-mv -f ~/.vim ~/.vim_old
-mv -f ~/.vimrc ~/.vimrc_old
 git clone https://github.com/wuzangsama/vim_ide.git
 cp -f ~/vim_ide/.vimrc ~/
 
