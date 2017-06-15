@@ -1,6 +1,7 @@
 #!/bin/bash
 echo "开始安装，请耐心等待~"
 
+echo "安装依赖~"
 if which apt-get >/dev/null; then
     sudo apt install build-essential \
         python python3 python-dev python3-dev \
@@ -17,6 +18,8 @@ if which brew >/dev/null;then
     brew install ruby ruby-dev perl libperl-dev cmake ctags git the_silver_searcher curl cscope
 fi
 
+
+echo "重新编译安装vim~"
 cd ~
 git clone https://github.com/vim/vim.git
 cd vim
@@ -36,8 +39,6 @@ cd vim
 make
 sudo make install
 
-mv -f ~/.vim ~/.vim_old
-mv -f ~/.vimrc ~/.vimrc_old
 
 echo "安装airline所需字体~"
 cd ~
@@ -47,29 +48,29 @@ cd fonts
 cd ..
 rm -rf fonts
 
+
 echo "安装vim-plug插件~"
 cd ~
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
+
 echo "开始安装vim环境~"
+mv -f ~/.vim ~/.vim_old
+mv -f ~/.vimrc ~/.vimrc_old
 git clone https://github.com/wuzangsama/vim_ide.git
 cp -f ~/vim_ide/.vimrc ~/
 
-echo "开始安装Bundle插件，安装完将自动退出~"
 
+echo "开始安装Bundle插件，安装完将自动退出~"
 vim -c "PlugInstall" -c "q" -c "q"
 
-echo "开始安装YouCompleteMe~"
-
-cd ~/.vim/bundle/YouCompleteMe/
-./install.py --clang-completer
 
 echo "最后一些处理工作~"
 cd ~/.vim/bundle/ultisnips/
 mkdir mysnippets
 cd ~
 cp -rf ~/vim_ide/mysnippets/* ~/.vim/bundle/ultisnips/mysnippets
-#mkdir -p ~/.undo_history
+
 
 echo "OK，祝使用愉快~"

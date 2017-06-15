@@ -142,10 +142,11 @@ filetype off
 " vim-plug 管理的插件列表必须位于 call plug#begin() 和 call plug#end() 之间
 call plug#begin('~/.vim/bundle')
 
-Plug 'flazz/vim-colorschemes'
+Plug 'tomasr/molokai'
+Plug 'altercation/vim-colors-solarized'
+Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'morhetz/gruvbox'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'Yggdroot/indentLine'
 Plug 'easymotion/vim-easymotion'
@@ -157,32 +158,29 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'godlygeek/tabular'
 Plug 'vim-scripts/DoxygenToolkit.vim'
+"Plug 'w0rp/ale'
 Plug 'vim-syntastic/syntastic'
-Plug 'Valloric/YouCompleteMe'
+Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer'}
 Plug 'raimondi/delimitmate'
 Plug 'luochen1990/rainbow'
 Plug 'scrooloose/nerdcommenter'
 Plug 'SirVer/ultisnips'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'vim-scripts/Mark--Karkat' "多个高亮 <leader>m
+Plug 'nvie/vim-togglemouse'
+Plug 'Shougo/vinarise.vim'
+Plug 'Shougo/vimproc.vim'
+Plug 'shougo/vimfiler.vim'
+Plug 'Shougo/vimshell.vim'
 Plug 'Shougo/unite.vim'
 Plug 'shougo/unite-outline'
 Plug 'shougo/neomru.vim'
-Plug 'shougo/vimfiler.vim'
 Plug 'shougo/neoyank.vim'
-Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-Plug 'Shougo/vimshell.vim'
-Plug 'Shougo/unite-session'
 Plug 'Shougo/unite-build'
 Plug 'thinca/vim-unite-history'
-Plug 'ujihisa/unite-colorscheme'
 Plug 'tacroe/unite-mark'
-Plug 'sgur/unite-qf'
 Plug 'vim-scripts/vim-unite-cscope'
-Plug 'Shougo/vinarise.vim'
-Plug 'nvie/vim-togglemouse'
-Plug 'vim-scripts/vcscommand.vim'
-Plug 'vim-scripts/Conque-GDB'
+Plug 'vim-scripts/Conque-GDB', {'on': 'ConqueGdb'}
 
 " 插件列表结束
 call plug#end()
@@ -219,7 +217,6 @@ colorscheme gruvbox
 
 
 ">>>airline
-"let g:airline_theme="hybrid"
 "let g:airline_theme="molokai"
 let g:airline_theme="gruvbox"
 "let g:airline_theme="solarized"
@@ -286,6 +283,11 @@ map <Leader>df <ESC>:Dox<CR>
 "<<<Doxygen
 
 
+">>>ale
+"let g:ale_keep_list_window_open = 1
+"let g:ale_open_list = 1
+"<<<ale
+
 ">>>syntastic
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -294,6 +296,7 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:syntastic_c_include_dirs = ['include', '../include', '../../inlclude', '../../../include']
 "<<<syntastic
 
 
