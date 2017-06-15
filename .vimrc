@@ -158,8 +158,8 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'godlygeek/tabular'
 Plug 'vim-scripts/DoxygenToolkit.vim'
-"Plug 'w0rp/ale'
-Plug 'vim-syntastic/syntastic'
+Plug 'w0rp/ale'
+"Plug 'vim-syntastic/syntastic'
 Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer'}
 Plug 'raimondi/delimitmate'
 Plug 'luochen1990/rainbow'
@@ -284,19 +284,18 @@ map <Leader>df <ESC>:Dox<CR>
 
 
 ">>>ale
-"let g:ale_keep_list_window_open = 1
-"let g:ale_open_list = 1
+let g:ale_open_list = 1
 "<<<ale
 
 ">>>syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_c_include_dirs = ['include', '../include', '../../inlclude', '../../../include']
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
+"let g:syntastic_c_include_dirs = ['include', '../include', '../../inlclude', '../../../include']
 "<<<syntastic
 
 
