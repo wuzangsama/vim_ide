@@ -180,7 +180,7 @@ Plug 'Shougo/unite-build'
 Plug 'thinca/vim-unite-history'
 Plug 'tacroe/unite-mark'
 Plug 'vim-scripts/vim-unite-cscope'
-Plug 'vim-scripts/Conque-GDB', {'on': 'ConqueGdb'}
+"Plug 'vim-scripts/Conque-GDB', {'on': 'ConqueGdb'}
 
 " 插件列表结束
 call plug#end()
@@ -481,7 +481,7 @@ endf
 
 
 ">>>Conque-GDB
-nmap <F5> :ConqueGdb<cr>
+"nmap <F5> :ConqueGdb<cr>
 "<<<Conque-GDB
 
 
