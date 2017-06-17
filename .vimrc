@@ -169,7 +169,7 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'vim-scripts/Mark--Karkat' "多个高亮 <leader>m
 Plug 'nvie/vim-togglemouse'
 Plug 'Shougo/vinarise.vim'
-Plug 'Shougo/vimproc.vim'
+Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'shougo/vimfiler.vim'
 Plug 'Shougo/vimshell.vim'
 Plug 'Shougo/unite.vim'
