@@ -163,24 +163,16 @@ Plug 'vim-syntastic/syntastic'
 Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer'}
 Plug 'raimondi/delimitmate'
 Plug 'luochen1990/rainbow'
-Plug 'scrooloose/nerdcommenter'
+Plug 'tpope/vim-commentary' " 注释 gcc gcu gcap
 Plug 'SirVer/ultisnips'
 Plug 'terryma/vim-multiple-cursors'
+Plug 'terryma/vim-expand-region' " + 选中片段 - 不选中
 Plug 'vim-scripts/Mark--Karkat' "多个高亮 <leader>m
 Plug 'nvie/vim-togglemouse'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'scrooloose/nerdtree'
 Plug 'Shougo/vinarise.vim'
-Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-Plug 'shougo/vimfiler.vim'
-Plug 'Shougo/vimshell.vim'
-Plug 'Shougo/unite.vim'
-Plug 'shougo/unite-outline'
-Plug 'shougo/neomru.vim'
-Plug 'shougo/neoyank.vim'
-Plug 'Shougo/unite-build'
-Plug 'thinca/vim-unite-history'
-Plug 'tacroe/unite-mark'
-Plug 'vim-scripts/vim-unite-cscope'
-"Plug 'vim-scripts/Conque-GDB', {'on': 'ConqueGdb'}
 
 " 插件列表结束
 call plug#end()
@@ -351,137 +343,40 @@ let g:multi_cursor_skip_key='<S-K>' " 跳过
 let g:rainbow_active = 1
 "<<<rainbow
 
-">>>Unite
-nnoremap <Space><Space> :Unite<cr>
-nnoremap <Space>b :Unite buffer<cr>
-nnoremap <Space>f :Unite file_rec<cr>i
-nnoremap <Space>g :Unite grep<cr><cr>
-nnoremap <Space>r :Unite file_mru<cr>
-nnoremap <Space>o :Unite outline<cr>
-nnoremap <Space>k :Unite mark<cr>
-nnoremap <Space>hs :Unite history/search<cr>
-nnoremap <Space>hc :Unite history/command<cr>
-nnoremap <Space>hy :Unite history/yank<cr>
-nnoremap <Space>mm :Unite build:make<cr>
-nnoremap <Space>mc :Unite build:make:clean<cr>
-nnoremap <Space>mi :Unite build:make:install<cr>
-nnoremap <Space>ci :Unite cscope/functions_calling<cr>
-nnoremap <Space>cb :Unite cscope/functions_called_by<cr>
-nnoremap <Space>cf :Unite cscope/find_this_symbol<cr>
-call unite#custom#source('codesearch', 'max_candidates', 30)
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-call unite#filters#sorter_default#use(['sorter_rank'])
-let g:unite_source_grep_max_candidates = 200
-let g:unite_source_grep_default_opts =
-      \ '-iRHn'
-      \ . " --exclude='tags'"
-      \ . " --exclude='cscope*'"
-      \ . " --exclude='*.svn*'"
-      \ . " --exclude='*.log*'"
-      \ . " --exclude='*tmp*'"
-      \ . " --exclude-dir='**/tmp'"
-      \ . " --exclude-dir='CVS'"
-      \ . " --exclude-dir='.svn'"
-      \ . " --exclude-dir='.git'"
-      \ . " --exclude-dir='node_modules'"
-if executable('hw')
-  " Use hw (highway)
-  " https://github.com/tkengo/highway
-  let g:unite_source_grep_command = 'hw'
-  let g:unite_source_grep_default_opts = '--no-group --no-color'
-  let g:unite_source_grep_recursive_opt = ''
-elseif executable('ag')
-  " Use ag (the silver searcher)
-  " https://github.com/ggreer/the_silver_searcher
-  let g:unite_source_grep_command = 'ag'
-  let g:unite_source_grep_default_opts = '-i --line-numbers --nocolor --nogroup --hidden --ignore ' .
-        \ '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
-  let g:unite_source_grep_recursive_opt = ''
-elseif executable('pt')
-  " Use pt (the platinum searcher)
-  " https://github.com/monochromegane/the_platinum_searcher
-  let g:unite_source_grep_command = 'pt'
-  let g:unite_source_grep_default_opts = '--nogroup --nocolor'
-  let g:unite_source_grep_recursive_opt = ''
-elseif executable('ack-grep')
-  " Use ack
-  " http://beyondgrep.com/
-  let g:unite_source_grep_command = 'ack-grep'
-  let g:unite_source_grep_default_opts = '-i --no-heading --no-color -k -H'
-  let g:unite_source_grep_recursive_opt = ''
-elseif executable('ack')
-  let g:unite_source_grep_command = 'ack'
-  let g:unite_source_grep_default_opts = '-i --no-heading --no-color -k -H'
-  let g:unite_source_grep_recursive_opt = ''
-elseif executable('jvgrep')
-  " Use jvgrep
-  " https://github.com/mattn/jvgrep
-  let g:unite_source_grep_command = 'jvgrep'
-  let g:unite_source_grep_default_opts = '-i --exclude ''\.(git|svn|hg|bzr)'''
-  let g:unite_source_grep_recursive_opt = '-R'
-elseif executable('beagrep')
-  " Use beagrep
-  " https://github.com/baohaojun/beagrep
-  let g:unite_source_grep_command = 'beagrep'
-endif
-let g:unite_source_rec_async_command = ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', '']
-"<<<Unite
-
-">>>vimfiler
-map <F3> :VimFilerExplorer<CR>
-imap <F3> <ESC>:VimFilerExplorer<CR>
-let g:vimfiler_as_default_explorer = 1
-let g:vimfiler_restore_alternate_file = 1
-let g:vimfiler_tree_indentation = 1
-let g:vimfiler_tree_leaf_icon = ''
-let g:vimfiler_tree_opened_icon = '▼'
-let g:vimfiler_tree_closed_icon = '▷'
-let g:vimfiler_file_icon = ''
-let g:vimfiler_readonly_file_icon = '*'
-let g:vimfiler_marked_file_icon = '√'
-"let g:vimfiler_preview_action = 'auto_preview'
-let g:vimfiler_ignore_pattern = [
-      \ '^\.git$',
-      \ '^\.DS_Store$',
-      \ '^\.init\.vim-rplugin\~$',
-      \ '^\.netrwhist$',
-      \ '\.class$'
-      \]
-call vimfiler#custom#profile('default', 'context', {
-      \ 'explorer' : 1,
-      \ 'winwidth' : 30,
-      \ 'winminwidth' : 30,
-      \ 'toggle' : 1,
-      \ 'auto_expand': 1,
-      \ 'explorer_columns' : 30,
-      \ 'parent': 0,
-      \ 'status' : 1,
-      \ 'safe' : 0,
-      \ 'split' : 1,
-      \ 'hidden': 1,
-      \ 'no_quit' : 1,
-      \ 'force_hide' : 0,
-      \ })
-
-"catch
-"endtry
-augroup vfinit
-  au!
-  autocmd FileType vimfiler call s:vimfilerinit()
-  autocmd vimenter * if !argc() | VimFilerExplorer | endif " 无文件打开显示vimfiler
-  autocmd BufEnter * if (!has('vim_starting') && winnr('$') == 1 && &filetype ==# 'vimfiler') |
-        \ q | endif
-augroup END
-function! s:vimfilerinit()
-  setl nonumber
-  setl norelativenumber
-endf
-"<<<vimfiler
+">>>FZF
+nnoremap <Space>b :Buffers<cr>
+nnoremap <Space>f :Files<cr>
+nnoremap <Space>g :Ag 
+nnoremap <Space>tb :BTags<cr>
+nnoremap <Space>ta :Tags<cr>
+nnoremap <Space>m :Marks<cr>
+nnoremap <Space>hf :History<cr>
+nnoremap <Space>hs :History/<cr>
+nnoremap <Space>hc :History:<cr>
+"<<<FZF
 
 
-">>>Conque-GDB
-"nmap <F5> :ConqueGdb<cr>
-"<<<Conque-GDB
+">>>nerdtree
+map <F3> :NERDTreeToggle<CR>
+imap <F3> <ESC>:NERDTreeToggle<CR>
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+let g:NERDTreeDirArrowExpandable = '▷'
+let g:NERDTreeDirArrowCollapsible = '▼'
+" 设置NERDTree子窗口宽度
+let NERDTreeWinSize=32
+" 设置NERDTree子窗口位置
+let NERDTreeWinPos="left"
+" 显示隐藏文件
+let NERDTreeShowHidden=1
+" NERDTree 子窗口中不显示冗余帮助信息
+let NERDTreeMinimalUI=1
+" 删除文件时自动删除文件对应 buffer
+let NERDTreeAutoDeleteBuffer=1
+"<<<nerdtree
+
+
 
 
 "=========================================
