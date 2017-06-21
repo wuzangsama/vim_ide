@@ -156,7 +156,7 @@ Plug 'derekwyatt/vim-protodef'
 Plug 'kshenoy/vim-signature'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
-Plug 'godlygeek/tabular'
+Plug 'junegunn/vim-easy-align'
 Plug 'vim-scripts/DoxygenToolkit.vim'
 Plug 'w0rp/ale'
 " Plug 'vim-syntastic/syntastic'
@@ -179,6 +179,7 @@ Plug 'shougo/vimfiler.vim'
 Plug 'Shougo/unite.vim'
 Plug 'vim-scripts/vim-unite-cscope'
 Plug 'shougo/unite-outline'
+Plug 'terryma/vim-smooth-scroll'
 
 " 插件列表结束
 call plug#end()
@@ -263,12 +264,12 @@ let g:UltiSnipsJumpBackwardTrigger="<leader><s-tab>"
 "<<<ultisnips
 
 
-">>>tabular
-nmap <Leader>a= :Tabularize /=<CR>
-vmap <Leader>a= :Tabularize /=<CR>
-nmap <Leader>a: :Tabularize /:\zs<CR>
-vmap <Leader>a: :Tabularize /:\zs<CR>
-"<<<tabular
+">>>vim-easy-align
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+"<<<vim-easy-align
 
 
 ">>>Doxygen
@@ -349,7 +350,41 @@ let g:multi_cursor_skip_key='<S-K>' " 跳过
 let g:rainbow_active = 1
 "<<<rainbow
 
+
 ">>>FZF
+" Default fzf layout
+" - down / up / left / right
+let g:fzf_layout = { 'down': '~40%' }
+
+" Customize fzf colors to match your color scheme
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
+" Enable per-command history.
+" CTRL-N and CTRL-P will be automatically bound to next-history and
+" previous-history instead of down and up. If you don't like the change,
+" explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
+let g:fzf_history_dir = '~/.local/share/fzf-history'
+
+" [Buffers] Jump to the existing window if possible
+let g:fzf_buffers_jump = 1
+
+" [[B]Commits] Customize the options used by 'git log':
+let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
+
+" [Tags] Command to generate tags file
+let g:fzf_tags_command = 'ctags -R'
 nnoremap <Space>b :Buffers<cr>
 nnoremap <Space>f :Files<cr>
 nnoremap <Space>g :Ag 
@@ -360,6 +395,7 @@ nnoremap <Space>hf :History<cr>
 nnoremap <Space>hs :History/<cr>
 nnoremap <Space>hc :History:<cr>
 "<<<FZF
+
 
 ">>>Unite
 nnoremap <Space><Space> :Unite<cr>
@@ -486,6 +522,14 @@ function! s:vimfilerinit()
   nmap <buffer> u       <Plug>(vimfiler_smart_h)
 endf
 "<<<vimfiler
+
+
+">>>smooth_scroll
+noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
+noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
+noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
+noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
+"<<<smooth_scroll
 
 
 
