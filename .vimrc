@@ -158,8 +158,8 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'godlygeek/tabular'
 Plug 'vim-scripts/DoxygenToolkit.vim'
-"Plug 'w0rp/ale'
-Plug 'vim-syntastic/syntastic'
+Plug 'w0rp/ale'
+" Plug 'vim-syntastic/syntastic'
 Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer'}
 Plug 'raimondi/delimitmate'
 Plug 'luochen1990/rainbow'
@@ -172,7 +172,13 @@ Plug 'nvie/vim-togglemouse'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree'
+Plug 'shougo/vimshell.vim'
+Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'Shougo/vinarise.vim'
+Plug 'shougo/vimfiler.vim'
+Plug 'Shougo/unite.vim'
+Plug 'vim-scripts/vim-unite-cscope'
+Plug 'shougo/unite-outline'
 
 " 插件列表结束
 call plug#end()
@@ -218,8 +224,8 @@ let g:airline_theme="gruvbox"
 let g:airline_powerline_fonts = 1
 
 " 显示buffer栏和buffer编号
-"let g:airline#extensions#tabline#enabled = 1
-"let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_nr_show = 1
 
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
@@ -276,17 +282,17 @@ map <Leader>df <ESC>:Dox<CR>
 
 
 ">>>ale
-"let g:ale_open_list = 1
+let g:ale_open_list = 1
 "<<<ale
 
 ">>>syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 0
 "let g:syntastic_c_include_dirs = ['include', '../include', '../../inlclude', '../../../include']
 "<<<syntastic
 
@@ -355,26 +361,131 @@ nnoremap <Space>hs :History/<cr>
 nnoremap <Space>hc :History:<cr>
 "<<<FZF
 
+">>>Unite
+nnoremap <Space><Space> :Unite<cr>
+nnoremap <Space>r :Unite file_mru<cr>
+nnoremap <Space>o :Unite outline<cr>
+nnoremap <Space>hy :Unite history/yank<cr>
+nnoremap <Space>ci :Unite cscope/functions_calling<cr>
+nnoremap <Space>cb :Unite cscope/functions_called_by<cr>
+nnoremap <Space>cf :Unite cscope/find_this_symbol<cr>
+call unite#custom#source('codesearch', 'max_candidates', 30)
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#filters#sorter_default#use(['sorter_rank'])
+let g:unite_source_grep_max_candidates = 200
+let g:unite_source_grep_default_opts =
+      \ '-iRHn'
+      \ . " --exclude='tags'"
+      \ . " --exclude='cscope*'"
+      \ . " --exclude='*.svn*'"
+      \ . " --exclude='*.log*'"
+      \ . " --exclude='*tmp*'"
+      \ . " --exclude-dir='**/tmp'"
+      \ . " --exclude-dir='CVS'"
+      \ . " --exclude-dir='.svn'"
+      \ . " --exclude-dir='.git'"
+      \ . " --exclude-dir='node_modules'"
+if executable('hw')
+  " Use hw (highway)
+  " https://github.com/tkengo/highway
+  let g:unite_source_grep_command = 'hw'
+  let g:unite_source_grep_default_opts = '--no-group --no-color'
+  let g:unite_source_grep_recursive_opt = ''
+elseif executable('ag')
+  " Use ag (the silver searcher)
+  " https://github.com/ggreer/the_silver_searcher
+  let g:unite_source_grep_command = 'ag'
+  let g:unite_source_grep_default_opts = '-i --line-numbers --nocolor --nogroup --hidden --ignore ' .
+        \ '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
+  let g:unite_source_grep_recursive_opt = ''
+elseif executable('pt')
+  " Use pt (the platinum searcher)
+  " https://github.com/monochromegane/the_platinum_searcher
+  let g:unite_source_grep_command = 'pt'
+  let g:unite_source_grep_default_opts = '--nogroup --nocolor'
+  let g:unite_source_grep_recursive_opt = ''
+elseif executable('ack-grep')
+  " Use ack
+  " http://beyondgrep.com/
+  let g:unite_source_grep_command = 'ack-grep'
+  let g:unite_source_grep_default_opts = '-i --no-heading --no-color -k -H'
+  let g:unite_source_grep_recursive_opt = ''
+elseif executable('ack')
+  let g:unite_source_grep_command = 'ack'
+  let g:unite_source_grep_default_opts = '-i --no-heading --no-color -k -H'
+  let g:unite_source_grep_recursive_opt = ''
+elseif executable('jvgrep')
+  " Use jvgrep
+  " https://github.com/mattn/jvgrep
+  let g:unite_source_grep_command = 'jvgrep'
+  let g:unite_source_grep_default_opts = '-i --exclude ''\.(git|svn|hg|bzr)'''
+  let g:unite_source_grep_recursive_opt = '-R'
+elseif executable('beagrep')
+  " Use beagrep
+  " https://github.com/baohaojun/beagrep
+  let g:unite_source_grep_command = 'beagrep'
+endif
+let g:unite_source_rec_async_command = ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', '']
+"<<<Unite
 
-">>>nerdtree
-map <F3> :NERDTreeToggle<CR>
-imap <F3> <ESC>:NERDTreeToggle<CR>
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-let g:NERDTreeDirArrowExpandable = '▷'
-let g:NERDTreeDirArrowCollapsible = '▼'
-" 设置NERDTree子窗口宽度
-let NERDTreeWinSize=32
-" 设置NERDTree子窗口位置
-let NERDTreeWinPos="left"
-" 显示隐藏文件
-let NERDTreeShowHidden=1
-" NERDTree 子窗口中不显示冗余帮助信息
-let NERDTreeMinimalUI=1
-" 删除文件时自动删除文件对应 buffer
-let NERDTreeAutoDeleteBuffer=1
-"<<<nerdtree
+">>>vimfiler
+map <F3> :VimFilerExplorer<CR>
+imap <F3> <ESC>:VimFilerExplorer<CR>
+let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_restore_alternate_file = 1
+let g:vimfiler_tree_indentation = 1
+let g:vimfiler_tree_leaf_icon = ''
+let g:vimfiler_tree_opened_icon = '▼'
+let g:vimfiler_tree_closed_icon = '▷'
+let g:vimfiler_file_icon = ''
+let g:vimfiler_readonly_file_icon = '*'
+let g:vimfiler_marked_file_icon = '√'
+"let g:vimfiler_preview_action = 'auto_preview'
+let g:vimfiler_ignore_pattern = [
+      \ '^\.git$',
+      \ '^\.DS_Store$',
+      \ '^\.init\.vim-rplugin\~$',
+      \ '^\.netrwhist$',
+      \ '\.class$'
+      \]
+call vimfiler#custom#profile('default', 'context', {
+      \ 'explorer' : 1,
+      \ 'winwidth' : 30,
+      \ 'winminwidth' : 30,
+      \ 'toggle' : 1,
+      \ 'auto_expand': 1,
+      \ 'explorer_columns' : 30,
+      \ 'parent': 0,
+      \ 'status' : 1,
+      \ 'safe' : 0,
+      \ 'split' : 1,
+      \ 'hidden': 1,
+      \ 'no_quit' : 1,
+      \ 'force_hide' : 0,
+      \ })
+
+"catch
+"endtry
+augroup vfinit
+  au!
+  autocmd FileType vimfiler call s:vimfilerinit()
+  autocmd vimenter * if !argc() | VimFilerExplorer | endif " 无文件打开显示vimfiler
+  autocmd BufEnter * if (!has('vim_starting') && winnr('$') == 1 && &filetype ==# 'vimfiler') |
+        \ q | endif
+augroup END
+function! s:vimfilerinit()
+  setl nonumber
+  setl norelativenumber
+
+  silent! nunmap <buffer> <C-l>
+  silent! nunmap <buffer> <C-j>
+  silent! nunmap <buffer> B
+
+  nmap <buffer> i       <Plug>(vimfiler_switch_to_history_directory)
+  nmap <buffer> <C-r>   <Plug>(vimfiler_redraw_screen)
+  nmap <buffer> u       <Plug>(vimfiler_smart_h)
+endf
+"<<<vimfiler
 
 
 
@@ -409,13 +520,13 @@ nmap <Leader>Q :qa!<CR>
 nnoremap <C-w> <C-W>w
 nnoremap <tab> <C-W>w
 " 跳转至右方的窗口
-"nnoremap <C-l> <C-W>l
+nnoremap <C-l> <C-W>l
 " 跳转至方的窗口
-"nnoremap <C-h> <C-W>h
+nnoremap <C-h> <C-W>h
 " 跳转至上方的子窗口
-"nnoremap <C-k> <C-W>k
+nnoremap <C-k> <C-W>k
 " 跳转至下方的子窗口
-"nnoremap <C-j> <C-W>j
+nnoremap <C-j> <C-W>j
 
 
 " 库信息参考
