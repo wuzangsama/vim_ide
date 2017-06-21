@@ -176,8 +176,10 @@ Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'Shougo/vinarise.vim'
 Plug 'shougo/vimfiler.vim'
 Plug 'Shougo/unite.vim'
-Plug 'vim-scripts/vim-unite-cscope'
 Plug 'shougo/unite-outline'
+Plug 'shougo/neomru.vim'
+Plug 'shougo/neoyank.vim'
+Plug 'vim-scripts/vim-unite-cscope'
 Plug 'terryma/vim-smooth-scroll'
 
 " 插件列表结束
