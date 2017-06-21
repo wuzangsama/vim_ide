@@ -171,7 +171,6 @@ Plug 'vim-scripts/Mark--Karkat' "多个高亮 <leader>m
 Plug 'nvie/vim-togglemouse'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'scrooloose/nerdtree'
 Plug 'shougo/vimshell.vim'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'Shougo/vinarise.vim'

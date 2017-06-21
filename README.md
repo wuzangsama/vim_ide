@@ -23,11 +23,11 @@ sh install.sh
 - 映射`<leader>WQ`为保存所有窗口内容并退出vim
 - 映射`<leader>Q`为不做保存退出vim
 - 映射`<C-w>` 或`TAB`为切换子窗口
-- 映射`<C-k>`,`<C-j>`,`<C-h>`,`<C-l>`为切换上下左右窗口 --old
+- 映射`<C-k>`,`<C-j>`,`<C-h>`,`<C-l>`为切换上下左右窗口
 - 使用`<C-Left>`和`<C-Right>`来切换已打开的buffer --old
 ### 编译调试
 - 映射`<F7>`为编译c/c++文档
-- 映射`<F5>`为调试c/c++
+- 映射`<F5>`为调试c/c++ --old
 ### 替换
 - 映射`<Leader>R`为替换非整词匹配，替换时不确认
 - 映射`<Leader>rw`为替换整词匹配，替换时不确认
@@ -38,6 +38,7 @@ sh install.sh
 - 使用`ma`/`mb`...等用来打标签，可实现同一文件的位置标记可视化，使用`` `a``/`` `b``可进行定位
 ```
   mx           Toggle mark 'x' and display it in the leftmost column
+- 使用`gcc`来注释和反注释，使用`gcap`来注释整个段落
   dmx          Remove mark 'x' where x is a-zA-Z
 
   m,           Place the next available mark
@@ -63,20 +64,26 @@ sh install.sh
   m?           Open location list and display markers from current buffer
   m<BS>        Remove all markers
 ```
-- 使用`<F2>`可以在右边调出tag标签列表，方便查看函数列表等
+- 使用`<F2>`可以在右边调出tag标签列表，方便查看函数列表等 --old
 - 映射`gag`在工程文件夹下搜索选中的单词 --old
-- 可视模式选中一部分单词，可以使用`<Leader>n`来一次选中多个该单词，使用`<Leader>k`跳过当前选中的单词
+- 可视模式选中一部分单词，可以使用`<S-m>`来一次选中多个该单词，使用`<S-k>`跳过当前选中的单词
+- 可以使用`<Leader>m`来高亮一个单词
+- 可以按`F12`来切换鼠标作用在终端还是vim，切换到终端可以使用复制黏贴动作
 - 因为跟YCM的按键冲突，改为使用`<Leader><tab>`键来做snip快捷输入
 - 写完.h文件的申明后，在c文件或者cpp文件中使用`<Leader>PP`来生成函数定义
 - 使用`<F3>`来调出文件浏览器
-- 使用`<SPACE>`来选中两个括号或大括号等成对符之间的内容，快速选中快速修改 --old
+- 使用`+`来选中两个括号或大括号等成对符之间的内容，快速选中快速修改
 - 使用`<Leader>ud`打开undo树，牛逼版u键 --old
 - 使用`<C-P>`打开工程中搜索文件窗口，查找文件各种方便 --old
 - 使用`<Leader>da`生成文档说明头，可以自行更改vimrc文件中的user来产生自己的头
 - 将光标定位在函数定义或申明那一行，使用`<Leader>df`生成函数说明文档
 - 补全时使用`tab`来选中想要的匹配项
 - 除了使用默认的跳转命令，还可以使用`<Leader>j`来查找定义
-- 使用`<Leader>a=`来对齐等号，使用`<Leader>a:`来对齐冒号，让代码更美观
+- 使用`ga=`来对齐等号，使用`ga:`来对齐冒号，让代码更美观
+- 使用`gcc`来注释和反注释，使用`gcap`来注释整个段落
+- 使用`<Space>b`来打开buffer列表，使用`<Space>f`来搜索打开文件，使用`<Space>g`来搜索单词
+- 使用`<Space>r`来打开最近打开文件，使用`<Space>o`来打开函数列表
+- 使用`<Space>ci`来查找调用该函数的地方，使用`<Space>cf`来查找函数定义
 - Surround插件说明
 ```
 例子：
