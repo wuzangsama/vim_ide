@@ -654,6 +654,23 @@ nnoremap <Leader>rcw :call Replace(1, 1, input('Replace '.expand('<cword>').' wi
 nnoremap <Leader>rwc :call Replace(1, 1, input('Replace '.expand('<cword>').' with: '))<CR>
 
 
+" 搜索选中项
+function! VisualSelection(direction, extra_filter) range
+	let l:saved_reg = @"
+	execute "normal! vgvy"
+
+	let l:pattern = escape(@", '\\/.*$^~[]')
+	let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+	execute 'Ag '.l:pattern
+
+	let @/ = l:pattern
+	let @" = l:saved_reg
+endfunction
+
+vnoremap <Space>g :call VisualSelection('ag', '')<CR>
+
+
 " 将外部命令 wmctrl 控制窗口最大化的命令行参数封装成一个 vim 的函数
 fun! ToggleFullscreen()
 	call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")
