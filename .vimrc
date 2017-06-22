@@ -52,7 +52,8 @@ set cursorline
 set hlsearch
 
 " 设置 gvim 显示字体
-"set guifont=YaHei\ Consolas\ Hybrid\ 10.5
+"set guifont=Noto\ Mono\ for\ Powerline:h12
+set guifont=Source\ Code\ Pro\ for\ Powerline:h14
 
 " 开启文件类型侦测
 filetype on
