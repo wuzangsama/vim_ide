@@ -390,10 +390,8 @@ let g:fzf_tags_command = 'ctags -R'
 nnoremap <Space>b :Buffers<cr>
 nnoremap <Space>f :Files<cr>
 nnoremap <Space>g :Ag 
-nnoremap <Space>tb :BTags<cr>
-nnoremap <Space>ta :Tags<cr>
+nnoremap <Space>t :BTags<cr>
 nnoremap <Space>m :Marks<cr>
-nnoremap <Space>hf :History<cr>
 nnoremap <Space>hs :History/<cr>
 nnoremap <Space>hc :History:<cr>
 "<<<FZF
