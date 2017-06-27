@@ -23,7 +23,7 @@ RUN yum update -y \
     && yum install -y zsh \
     && yum install -y tmux \
     && yum install -y which \
-    && chsh -s $(which zsh) \
+    && chsh -s /bin/zsh \
     && sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" \
     && cd /usr/local/src \
     && git clone https://github.com/vim/vim.git \
