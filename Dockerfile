@@ -23,7 +23,6 @@ RUN yum update -y \
     && yum install -y zsh \
     && yum install -y tmux \
     && yum install -y which \
-    && chsh -s /bin/zsh \
     && sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" \
     && cd /usr/local/src \
     && git clone https://github.com/vim/vim.git \
@@ -34,7 +33,7 @@ RUN yum update -y \
         --enable-cscope=yes \
         --enable-luainterp=yes \
         --enable-pythoninterp=yes \
-        --with-python-config-dir=/usr/lib/python2.7/config-x86_64-linux-gnu/ \
+        --with-python-config-dir=/usr/lib64/python2.7/config/ \
         --enable-tclinterp=yes \
         --enable-gui=auto \
     && make \
