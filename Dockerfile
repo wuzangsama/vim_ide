@@ -22,6 +22,7 @@ RUN yum update -y \
     && yum install -y the_silver_searcher \
     && yum install -y zsh \
     && yum install -y tmux \
+    && yum install -y which \
     && chsh -s $(which zsh) \
     && sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" \
     && cd /usr/local/src \
