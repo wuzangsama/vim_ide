@@ -11,6 +11,7 @@ RUN yum update -y \
     && yum install -y lua \
     && yum install -y lua-devel \
     && yum install -y perl \
+    && yum install -y golang \
     && yum install -y tcl \
     && yum install -y tcl-devel \
     && yum install -y ncurses \
@@ -54,7 +55,8 @@ RUN yum update -y \
     && git checkout with_vim_clang \
     && cp -f .vimrc ~/ \
     && cp -f .zshrc ~/ \
-    && vim -c "PlugInstall" -c "q" -c "q" \
+    && cp -f .tmux.conf ~/ \
+    && vim -c "PlugInstall" -c "GoInstallBinaries" -c "q" -c "q" \
     && cd ~/.vim/bundle/ultisnips/ \
     && mkdir mysnippets \
     && cp -rf /usr/local/src/vim_ide/mysnippets/* ~/.vim/bundle/ultisnips/mysnippets \
