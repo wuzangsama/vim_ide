@@ -1,5 +1,4 @@
 FROM centos
-ENV GOPATH=$HOME/go
 RUN yum update -y \
     && yum -y groupinstall "Development Tools" \
     && yum install -y zsh \
@@ -16,7 +15,6 @@ RUN yum update -y \
     && yum install -y lua \
     && yum install -y lua-devel \
     && yum install -y perl \
-    && yum install -y golang \
     && yum install -y tcl \
     && yum install -y tcl-devel \
     && yum install -y ncurses \
@@ -59,7 +57,6 @@ RUN yum update -y \
     && cp -f .zshrc ~/ \
     && cp -f .tmux.conf ~/ \
     && vim -c "PlugInstall" -c "q" -c "q" \
-    && vim -c "GoInstallBinaries" -c "q" -c "q" \
     && cd ~/.vim/bundle/ultisnips/ \
     && mkdir mysnippets \
     && cp -rf /usr/local/src/vim_ide/mysnippets/* ~/.vim/bundle/ultisnips/mysnippets \
