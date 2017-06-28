@@ -1,3 +1,4 @@
+ENV GOPATH=$HOME/go
 FROM centos
 RUN yum update -y \
     && yum -y groupinstall "Development Tools" \
@@ -23,7 +24,6 @@ RUN yum update -y \
     && yum install -y zsh \
     && yum install -y tmux \
     && yum install -y which \
-    && sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" \
     && cd /usr/local/src \
     && git clone https://github.com/vim/vim.git \
     && cd vim \
@@ -62,5 +62,7 @@ RUN yum update -y \
     && mkdir mysnippets \
     && cp -rf /usr/local/src/vim_ide/mysnippets/* ~/.vim/bundle/ultisnips/mysnippets \
     && rm -rf /usr/local/src/vim_ide/ \
+    && sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" \
+    && chsh -s /bin/zsh
     && yum clean all
 
