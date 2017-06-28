@@ -184,7 +184,7 @@ Plug 'shougo/neomru.vim'
 Plug 'shougo/neoyank.vim'
 Plug 'vim-scripts/vim-unite-cscope'
 Plug 'terryma/vim-smooth-scroll'
-Plug 'fatih/vim-go'
+Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 
 " 插件列表结束
 call plug#end()
