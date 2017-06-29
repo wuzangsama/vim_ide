@@ -618,6 +618,11 @@ noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
 noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
 "<<<smooth_scroll
 
+">>>vim-go
+let g:go_echo_command_info = 0
+let g:go_echo_go_info = 0
+"<<<vim-go
+
 
 
 
