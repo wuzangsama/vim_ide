@@ -148,6 +148,7 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'mhinz/vim-startify'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'Yggdroot/indentLine'
 Plug 'easymotion/vim-easymotion'
@@ -184,7 +185,7 @@ Plug 'shougo/neomru.vim'
 Plug 'shougo/neoyank.vim'
 Plug 'vim-scripts/vim-unite-cscope'
 Plug 'terryma/vim-smooth-scroll'
-Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+Plug 'wuzangsama/vim-go', { 'do': ':GoInstallBinaries' }
 
 " 插件列表结束
 call plug#end()
@@ -592,7 +593,7 @@ call vimfiler#custom#profile('default', 'context', {
 augroup vfinit
   au!
   autocmd FileType vimfiler call s:vimfilerinit()
-  autocmd vimenter * if !argc() | VimFilerExplorer | endif " 无文件打开显示vimfiler
+  "autocmd vimenter * if !argc() | VimFilerExplorer | endif " 无文件打开显示vimfiler
   autocmd BufEnter * if (!has('vim_starting') && winnr('$') == 1 && &filetype ==# 'vimfiler') |
         \ q | endif
 augroup END
@@ -619,8 +620,35 @@ noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
 "<<<smooth_scroll
 
 ">>>vim-go
-let g:go_echo_command_info = 0
-let g:go_echo_go_info = 0
+"let g:go_echo_command_info = 0
+"let g:go_echo_go_info = 0
+let g:go_fmt_fail_silently = 1
+let g:go_fmt_command = "gofmt" "Explicited the formater plugin (gofmt, goimports, goreturn...)
+
+" Show a list of interfaces which is implemented by the type under your cursor
+au FileType go nmap <Leader>s <Plug>(go-implements)
+
+" Show type info for the word under your cursor
+au FileType go nmap <Leader>i <Plug>(go-info)
+
+" Open the relevant Godoc for the word under the cursor
+au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+
+" Open the Godoc in browser
+au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
+
+" Run/build/test/coverage
+au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>t <Plug>(go-test)
+au FileType go nmap <leader>c <Plug>(go-coverage)
+
+" By default syntax-highlighting for Functions, Methods and Structs is disabled.
+" Let's enable them!
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
 "<<<vim-go
 
 
