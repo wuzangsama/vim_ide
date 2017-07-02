@@ -289,11 +289,8 @@ map <Leader>df <ESC>:Dox<CR>
 
 
 ">>>ale
-"let g:ale_open_list=1
+let g:ale_open_list=1
 let g:ale_lint_on_text_changed='never'
-nnoremap <Space>n :ALENextWrap<cr>
-nnoremap <Space>p :ALEPreviousWrap<cr>
-nnoremap <Space>d :ALEDetail<cr>
 "<<<ale
 
 ">>>syntastic
@@ -357,6 +354,8 @@ let g:clang_auto = 0
 " default 'longest' can not work with neocomplete
 let g:clang_c_completeopt = 'menuone,preview'
 let g:clang_cpp_completeopt = 'menuone,preview'
+
+let g:clang_diagsopt = ''
 "<<<vim-clang
 
 ">>>neocomplete
