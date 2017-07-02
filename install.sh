@@ -63,8 +63,11 @@ cd vim
     --enable-cscope=yes \
     --enable-perlinterp=yes \
     --enable-luainterp=yes \
+    --enable-rubyinterp=yes \
     --enable-pythoninterp=yes \
-    --with-python-config-dir=/usr/lib/python2.7/config-x86_64-linux-gnu/ \
+    --with-python-config-dir=/usr/lib64/python2.7/config/ \
+    --enable-python3interp=yes \
+    --with-python3-config-dir=/usr/lib64/python3.4/config/ \
     --enable-tclinterp=yes \
     --enable-gui=auto
 
