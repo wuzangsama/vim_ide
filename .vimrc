@@ -148,7 +148,6 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'mhinz/vim-startify'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'Yggdroot/indentLine'
 Plug 'easymotion/vim-easymotion'
@@ -167,7 +166,7 @@ Plug 'justmao945/vim-clang'
 Plug 'Shougo/neocomplete.vim'
 Plug 'raimondi/delimitmate'
 Plug 'luochen1990/rainbow'
-Plug 'tpope/vim-commentary' " 注释 gcc gcu gcap
+Plug 'tomtom/tcomment_vim' " 注释 gcc gcu gcap
 Plug 'SirVer/ultisnips'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'terryma/vim-expand-region' " + 选中片段 - 不选中
@@ -474,9 +473,7 @@ let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %
 
 " [Tags] Command to generate tags file
 let g:fzf_tags_command = 'ctags -R'
-nnoremap <Space>b :Buffers<cr>
 nnoremap <Space>f :Files<cr>
-nnoremap <Space>g :Ag 
 nnoremap <Space>t :BTags<cr>
 nnoremap <Space>m :Marks<cr>
 nnoremap <Space>hs :History/<cr>
@@ -486,9 +483,12 @@ nnoremap <Space>hc :History:<cr>
 
 ">>>Unite
 nnoremap <Space><Space> :Unite<cr>
+nnoremap <Space>b :Unite buffer<cr>
+nnoremap <Space>g :Unite grep<cr><cr>
 nnoremap <Space>r :Unite file_mru<cr>
 nnoremap <Space>o :Unite outline<cr>
 nnoremap <Space>hy :Unite history/yank<cr>
+nnoremap <Space>hu :Unite history/unite<cr>
 nnoremap <Space>ci :Unite cscope/functions_calling<cr>
 nnoremap <Space>cb :Unite cscope/functions_called_by<cr>
 nnoremap <Space>cf :Unite cscope/find_this_symbol<cr>
@@ -592,7 +592,7 @@ call vimfiler#custom#profile('default', 'context', {
 augroup vfinit
   au!
   autocmd FileType vimfiler call s:vimfilerinit()
-  "autocmd vimenter * if !argc() | VimFilerExplorer | endif " 无文件打开显示vimfiler
+  autocmd vimenter * if !argc() | VimFilerExplorer | endif " 无文件打开显示vimfiler
   autocmd BufEnter * if (!has('vim_starting') && winnr('$') == 1 && &filetype ==# 'vimfiler') |
         \ q | endif
 augroup END
