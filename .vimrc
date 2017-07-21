@@ -89,8 +89,9 @@ set shiftwidth=4
 set softtabstop=4
 
 " 基于缩进或语法进行代码折叠
-"set foldmethod=indent
-set foldmethod=syntax
+set foldmethod=indent
+set foldlevel=2
+"set foldmethod=syntax
 " 启动 vim 时关闭折叠代码
 set nofoldenable
 
@@ -164,14 +165,13 @@ Plug 'w0rp/ale'
 Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer'}
 Plug 'raimondi/delimitmate'
 Plug 'luochen1990/rainbow'
-Plug 'tpope/vim-commentary' " 注释 gcc gcu gcap
+Plug 'tomtom/tcomment_vim' " 注释 gcc gcu gcap
 Plug 'SirVer/ultisnips'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'terryma/vim-expand-region' " + 选中片段 - 不选中
 Plug 'vim-scripts/Mark--Karkat' "多个高亮 <leader>m
 Plug 'nvie/vim-togglemouse'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'shougo/vimshell.vim'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'Shougo/vinarise.vim'
@@ -182,6 +182,7 @@ Plug 'shougo/neomru.vim'
 Plug 'shougo/neoyank.vim'
 Plug 'vim-scripts/vim-unite-cscope'
 Plug 'terryma/vim-smooth-scroll'
+Plug 'wuzangsama/vim-go', { 'do': ':GoInstallBinaries' }
 
 " 插件列表结束
 call plug#end()
@@ -286,6 +287,7 @@ map <Leader>df <ESC>:Dox<CR>
 
 ">>>ale
 let g:ale_open_list=1
+let g:ale_set_quickfix=1
 let g:ale_lint_on_text_changed='never'
 "<<<ale
 
@@ -354,55 +356,24 @@ let g:rainbow_active = 1
 "<<<rainbow
 
 
-">>>FZF
-" Default fzf layout
-" - down / up / left / right
-let g:fzf_layout = { 'down': '~40%' }
-
-" Customize fzf colors to match your color scheme
-let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Comment'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'Statement'],
-  \ 'info':    ['fg', 'PreProc'],
-  \ 'prompt':  ['fg', 'Conditional'],
-  \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Keyword'],
-  \ 'spinner': ['fg', 'Label'],
-  \ 'header':  ['fg', 'Comment'] }
-
-" Enable per-command history.
-" CTRL-N and CTRL-P will be automatically bound to next-history and
-" previous-history instead of down and up. If you don't like the change,
-" explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
-let g:fzf_history_dir = '~/.local/share/fzf-history'
-
-" [Buffers] Jump to the existing window if possible
-let g:fzf_buffers_jump = 1
-
-" [[B]Commits] Customize the options used by 'git log':
-let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
-
-" [Tags] Command to generate tags file
-let g:fzf_tags_command = 'ctags -R'
-nnoremap <Space>b :Buffers<cr>
-nnoremap <Space>f :Files<cr>
-nnoremap <Space>g :Ag 
-nnoremap <Space>t :BTags<cr>
-nnoremap <Space>m :Marks<cr>
-nnoremap <Space>hs :History/<cr>
-nnoremap <Space>hc :History:<cr>
-"<<<FZF
+">>>CtrlP
+let g:ctrlp_custom_ignore = {
+    \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+    \ 'file': '\v\.(exe|so|dll)$',
+    \ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
+    \ }
+let g:ctrlp_lazy_update = 1
+"<<<CtrlP
 
 
 ">>>Unite
 nnoremap <Space><Space> :Unite<cr>
+nnoremap <Space>b :Unite buffer<cr>
+nnoremap <Space>g :Unite grep<cr><cr>
 nnoremap <Space>r :Unite file_mru<cr>
 nnoremap <Space>o :Unite outline<cr>
 nnoremap <Space>hy :Unite history/yank<cr>
+nnoremap <Space>hu :Unite history/unite<cr>
 nnoremap <Space>ci :Unite cscope/functions_calling<cr>
 nnoremap <Space>cb :Unite cscope/functions_called_by<cr>
 nnoremap <Space>cf :Unite cscope/find_this_symbol<cr>
@@ -422,46 +393,14 @@ let g:unite_source_grep_default_opts =
       \ . " --exclude-dir='.svn'"
       \ . " --exclude-dir='.git'"
       \ . " --exclude-dir='node_modules'"
-if executable('hw')
-  " Use hw (highway)
-  " https://github.com/tkengo/highway
-  let g:unite_source_grep_command = 'hw'
-  let g:unite_source_grep_default_opts = '--no-group --no-color'
-  let g:unite_source_grep_recursive_opt = ''
-elseif executable('ag')
-  " Use ag (the silver searcher)
-  " https://github.com/ggreer/the_silver_searcher
-  let g:unite_source_grep_command = 'ag'
-  let g:unite_source_grep_default_opts = '-i --line-numbers --nocolor --nogroup --hidden --ignore ' .
-        \ '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
-  let g:unite_source_grep_recursive_opt = ''
-elseif executable('pt')
-  " Use pt (the platinum searcher)
-  " https://github.com/monochromegane/the_platinum_searcher
-  let g:unite_source_grep_command = 'pt'
-  let g:unite_source_grep_default_opts = '--nogroup --nocolor'
-  let g:unite_source_grep_recursive_opt = ''
-elseif executable('ack-grep')
-  " Use ack
-  " http://beyondgrep.com/
-  let g:unite_source_grep_command = 'ack-grep'
-  let g:unite_source_grep_default_opts = '-i --no-heading --no-color -k -H'
-  let g:unite_source_grep_recursive_opt = ''
-elseif executable('ack')
-  let g:unite_source_grep_command = 'ack'
-  let g:unite_source_grep_default_opts = '-i --no-heading --no-color -k -H'
-  let g:unite_source_grep_recursive_opt = ''
-elseif executable('jvgrep')
-  " Use jvgrep
-  " https://github.com/mattn/jvgrep
-  let g:unite_source_grep_command = 'jvgrep'
-  let g:unite_source_grep_default_opts = '-i --exclude ''\.(git|svn|hg|bzr)'''
-  let g:unite_source_grep_recursive_opt = '-R'
-elseif executable('beagrep')
-  " Use beagrep
-  " https://github.com/baohaojun/beagrep
-  let g:unite_source_grep_command = 'beagrep'
-endif
+
+" Use ag (the silver searcher)
+" https://github.com/ggreer/the_silver_searcher
+let g:unite_source_grep_command = 'ag'
+let g:unite_source_grep_default_opts = '-i --line-numbers --nocolor --nogroup --hidden --ignore ' .
+            \ '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
+let g:unite_source_grep_recursive_opt = ''
+
 let g:unite_source_rec_async_command = ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', '']
 "<<<Unite
 
@@ -531,6 +470,75 @@ noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
 noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
 noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
 "<<<smooth_scroll
+
+">>>vim-go
+"let g:go_echo_command_info = 0
+"let g:go_echo_go_info = 0
+let g:go_fmt_command = "goimports"
+let g:go_autodetect_gopath = 1
+let g:go_list_type = "quickfix"
+
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_generate_tags = 1
+
+" Open :GoDeclsDir with ctrl-g
+nmap <C-g> :GoDeclsDir<cr>
+imap <C-g> <esc>:<C-u>GoDeclsDir<cr>
+
+augroup go
+  autocmd!
+
+  " Show by default 4 spaces for a tab
+  autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
+
+  " :GoBuild and :GoTestCompile
+  autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
+
+  " :GoTest
+  autocmd FileType go nmap <leader>t  <Plug>(go-test)
+
+  " :GoRun
+  autocmd FileType go nmap <leader>r  <Plug>(go-run)
+
+  " :GoDoc
+  autocmd FileType go nmap <Leader>d <Plug>(go-doc)
+
+  " :GoCoverageToggle
+  autocmd FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
+
+  " :GoInfo
+  autocmd FileType go nmap <Leader>i <Plug>(go-info)
+
+  " :GoMetaLinter
+  autocmd FileType go nmap <Leader>l <Plug>(go-metalinter)
+
+  " :GoDef but opens in a vertical split
+  autocmd FileType go nmap <Leader>v <Plug>(go-def-vertical)
+  " :GoDef but opens in a horizontal split
+  autocmd FileType go nmap <Leader>s <Plug>(go-def-split)
+
+  " :GoAlternate  commands :A, :AV, :AS and :AT
+  autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+  autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
+  autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+  autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
+augroup END
+
+" build_go_files is a custom function that builds or compiles the test file.
+" It calls :GoBuild if its a Go file, or :GoTestCompile if it's a test file
+function! s:build_go_files()
+  let l:file = expand('%')
+  if l:file =~# '^\f\+_test\.go$'
+    call go#cmd#Test(0, 1)
+  elseif l:file =~# '^\f\+\.go$'
+    call go#cmd#Build(0)
+  endif
+endfunction
+"<<<vim-go
 
 
 
@@ -653,27 +661,10 @@ nnoremap <Leader>rcw :call Replace(1, 1, input('Replace '.expand('<cword>').' wi
 nnoremap <Leader>rwc :call Replace(1, 1, input('Replace '.expand('<cword>').' with: '))<CR>
 
 
-" 搜索选中项
-function! VisualSelection(direction, extra_filter) range
-	let l:saved_reg = @"
-	execute "normal! vgvy"
-
-	let l:pattern = escape(@", '\\/.*$^~[]')
-	let l:pattern = substitute(l:pattern, "\n$", "", "")
-
-	execute 'Ag '.l:pattern
-
-	let @/ = l:pattern
-	let @" = l:saved_reg
-endfunction
-
-vnoremap <Space>g :call VisualSelection('ag', '')<CR>
-
-
 " 将外部命令 wmctrl 控制窗口最大化的命令行参数封装成一个 vim 的函数
-fun! ToggleFullscreen()
-	call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")
-endf
+" fun! ToggleFullscreen()
+" 	call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")
+" endf
 " 启动 vim 时自动全屏
 "autocmd VimEnter * call ToggleFullscreen()
 " 全屏开/关快捷键
