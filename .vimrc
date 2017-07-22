@@ -162,7 +162,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'vim-scripts/DoxygenToolkit.vim'
 Plug 'w0rp/ale'
 " Plug 'vim-syntastic/syntastic'
-Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer'}
+Plug 'Valloric/YouCompleteMe', {'do': './install.py --system-libclang --clang-completer --gocode-completer'}
 Plug 'raimondi/delimitmate'
 Plug 'luochen1990/rainbow'
 Plug 'tomtom/tcomment_vim' " 注释 gcc gcu gcap
