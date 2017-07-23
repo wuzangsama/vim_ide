@@ -162,7 +162,9 @@ Plug 'junegunn/vim-easy-align'
 Plug 'vim-scripts/DoxygenToolkit.vim'
 Plug 'w0rp/ale'
 " Plug 'vim-syntastic/syntastic'
-Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --gocode-completer'}
+" Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --gocode-completer'}
+Plug 'justmao945/vim-clang'
+Plug 'Shougo/neocomplete.vim'
 Plug 'raimondi/delimitmate'
 Plug 'luochen1990/rainbow'
 Plug 'tomtom/tcomment_vim' " 注释 gcc gcu gcap
@@ -303,46 +305,128 @@ let g:ale_lint_on_text_changed='never'
 "<<<syntastic
 
 
-">>>ycm
-" 补全菜单配色
-" 菜单
-"highlight Pmenu ctermfg=2 ctermbg=3 guifg=#005f87 guibg=#EEE8D5
-" 选中项
-"highlight PmenuSel ctermfg=2 ctermbg=3 guifg=#AFD700 guibg=#106900"
+" ">>>ycm
+" " 补全菜单配色
+" " 菜单
+" "highlight Pmenu ctermfg=2 ctermbg=3 guifg=#005f87 guibg=#EEE8D5
+" " 选中项
+" "highlight PmenuSel ctermfg=2 ctermbg=3 guifg=#AFD700 guibg=#106900"
+"
+" " 不用每次提示加载.ycm_extra_conf.py文件
+" let g:ycm_confirm_extra_conf = 0
+" let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+"
+" " 关闭ycm的syntastic
+" let g:ycm_show_diagnostics_ui = 0
+"
+" "let g:ycm_filetype_whitelist = {'c' : 1, 'cpp' : 1, 'java' : 1, 'python' : 1}
+" let g:ycm_filetype_blacklist = {
+"             \ 'tagbar' : 1,
+"             \ 'qf' : 1,
+"             \ 'notes' : 1,
+"             \ 'markdown' : 1,
+"             \ 'unite' : 1,
+"             \ 'text' : 1,
+"             \ 'vimwiki' : 1,
+"             \ 'pandoc' : 1,
+"             \ 'infolog' : 1,
+"             \ 'mail' : 1,
+"             \ 'mundo': 1,
+"             \ 'fzf': 1,
+"             \ 'ctrlp' : 1
+"             \}
+"
+" " 评论中也应用补全
+" let g:ycm_complete_in_comments = 1
+"
+" " 两个字开始补全
+" let g:ycm_min_num_of_chars_for_completion = 2
+" let g:ycm_seed_identifiers_with_syntax = 1
+" let g:ycm_semantic_triggers =  {'c' : ['->', '.'], 'objc' : ['->', '.'], 'ocaml' : ['.', '#'], 'cpp,objcpp' : ['->', '.', '::'], 'php' : ['->', '::'], 'cs,java,javascript,vim,coffee,python,scala,go' : ['.'], 'ruby' : ['.', '::']}
+" nnoremap <leader>j :YcmCompleter GoToDefinitionElseDeclaration<CR>"
+" "<<<ycm
 
-" 不用每次提示加载.ycm_extra_conf.py文件
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 
-" 关闭ycm的syntastic
-let g:ycm_show_diagnostics_ui = 0
+">>>vim-clang
+let g:clang_cpp_options = '-std=c++11'
+" disable auto completion for vim-clang
+let g:clang_auto = 0
+" default 'longest' can not work with neocomplete
+let g:clang_c_completeopt = 'menuone,preview'
+let g:clang_cpp_completeopt = 'menuone,preview'
 
-"let g:ycm_filetype_whitelist = {'c' : 1, 'cpp' : 1, 'java' : 1, 'python' : 1}
-let g:ycm_filetype_blacklist = {
-            \ 'tagbar' : 1,
-            \ 'qf' : 1,
-            \ 'notes' : 1,
-            \ 'markdown' : 1,
-            \ 'unite' : 1,
-            \ 'text' : 1,
-            \ 'vimwiki' : 1,
-            \ 'pandoc' : 1,
-            \ 'infolog' : 1,
-            \ 'mail' : 1,
-            \ 'mundo': 1,
-            \ 'fzf': 1,
-            \ 'ctrlp' : 1
-            \}
+let g:clang_diagsopt = ''
+"<<<vim-clang
 
-" 评论中也应用补全
-let g:ycm_complete_in_comments = 1
+">>>neocomplete
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
 
-" 两个字开始补全
-let g:ycm_min_num_of_chars_for_completion = 2
-let g:ycm_seed_identifiers_with_syntax = 1
-let g:ycm_semantic_triggers =  {'c' : ['->', '.'], 'objc' : ['->', '.'], 'ocaml' : ['.', '#'], 'cpp,objcpp' : ['->', '.', '::'], 'php' : ['->', '::'], 'cs,java,javascript,vim,coffee,python,scala,go' : ['.'], 'ruby' : ['.', '::']}
-nnoremap <leader>j :YcmCompleter GoToDefinitionElseDeclaration<CR>"
-"<<<ycm
+" Define dictionary.
+let g:neocomplete#sources#dictionary#dictionaries = {
+    \ 'default' : '',
+    \ 'vimshell' : $HOME.'/.vimshell_hist',
+    \ 'scheme' : $HOME.'/.gosh_completions'
+        \ }
+
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+" Plugin key-mappings.
+"inoremap <expr><C-g>     neocomplete#undo_completion()
+"inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+  " For no inserting <CR> key.
+  "return pumvisible() ? "\<C-y>" : "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+"inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+" Close popup by <Space>.
+"inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+
+" AutoComplPop like behavior.
+"let g:neocomplete#enable_auto_select = 1
+
+" Shell like behavior(not recommended).
+"set completeopt+=longest
+"let g:neocomplete#enable_auto_select = 1
+"let g:neocomplete#disable_auto_complete = 1
+"inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
+
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Enable heavy omni completion.
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
+endif
+"let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+" For perlomni.vim setting.
+" https://github.com/c9s/perlomni.vim
+let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+"<<<neocomplete
 
 
 ">>>vim-multiple-cursors
