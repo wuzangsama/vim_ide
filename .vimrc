@@ -212,17 +212,17 @@ set t_Co=256
 "let g:solarized_visibility="normal"
 "let g:solarized_termcolors=256"
 
-"colorscheme molokai
-"let g:molokai_original = 1
-"let g:rehash256 = 1
+colorscheme molokai
+let g:molokai_original = 1
+let g:rehash256 = 1
 
-colorscheme gruvbox
+"colorscheme gruvbox
 "<<<colorscheme
 
 
 ">>>airline
-"let g:airline_theme="molokai"
-let g:airline_theme="gruvbox"
+let g:airline_theme="molokai"
+"let g:airline_theme="gruvbox"
 "let g:airline_theme="solarized"
 "let g:airline_theme="dark"
 
