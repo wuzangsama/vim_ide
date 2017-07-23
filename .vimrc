@@ -90,7 +90,7 @@ set softtabstop=4
 
 " 基于缩进或语法进行代码折叠
 set foldmethod=indent
-set foldlevel=2
+set foldlevel=99
 "set foldmethod=syntax
 " 启动 vim 时关闭折叠代码
 set nofoldenable
