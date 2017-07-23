@@ -90,7 +90,7 @@ set softtabstop=4
 
 " 基于缩进或语法进行代码折叠
 set foldmethod=indent
-set foldlevel=99
+set foldlevel=2
 "set foldmethod=syntax
 " 启动 vim 时关闭折叠代码
 set nofoldenable
@@ -161,8 +161,6 @@ Plug 'tpope/vim-repeat'
 Plug 'junegunn/vim-easy-align'
 Plug 'vim-scripts/DoxygenToolkit.vim'
 Plug 'w0rp/ale'
-" Plug 'vim-syntastic/syntastic'
-" Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --gocode-completer'}
 Plug 'justmao945/vim-clang'
 Plug 'Shougo/neocomplete.vim'
 Plug 'raimondi/delimitmate'
@@ -216,13 +214,13 @@ colorscheme molokai
 let g:molokai_original = 1
 let g:rehash256 = 1
 
-"colorscheme gruvbox
+" colorscheme gruvbox
 "<<<colorscheme
 
 
 ">>>airline
 let g:airline_theme="molokai"
-"let g:airline_theme="gruvbox"
+" let g:airline_theme="gruvbox"
 "let g:airline_theme="solarized"
 "let g:airline_theme="dark"
 
@@ -292,59 +290,6 @@ let g:ale_open_list=1
 let g:ale_set_quickfix=1
 let g:ale_lint_on_text_changed='never'
 "<<<ale
-
-">>>syntastic
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 0
-"let g:syntastic_c_include_dirs = ['include', '../include', '../../inlclude', '../../../include']
-"<<<syntastic
-
-
-" ">>>ycm
-" " 补全菜单配色
-" " 菜单
-" "highlight Pmenu ctermfg=2 ctermbg=3 guifg=#005f87 guibg=#EEE8D5
-" " 选中项
-" "highlight PmenuSel ctermfg=2 ctermbg=3 guifg=#AFD700 guibg=#106900"
-"
-" " 不用每次提示加载.ycm_extra_conf.py文件
-" let g:ycm_confirm_extra_conf = 0
-" let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
-"
-" " 关闭ycm的syntastic
-" let g:ycm_show_diagnostics_ui = 0
-"
-" "let g:ycm_filetype_whitelist = {'c' : 1, 'cpp' : 1, 'java' : 1, 'python' : 1}
-" let g:ycm_filetype_blacklist = {
-"             \ 'tagbar' : 1,
-"             \ 'qf' : 1,
-"             \ 'notes' : 1,
-"             \ 'markdown' : 1,
-"             \ 'unite' : 1,
-"             \ 'text' : 1,
-"             \ 'vimwiki' : 1,
-"             \ 'pandoc' : 1,
-"             \ 'infolog' : 1,
-"             \ 'mail' : 1,
-"             \ 'mundo': 1,
-"             \ 'fzf': 1,
-"             \ 'ctrlp' : 1
-"             \}
-"
-" " 评论中也应用补全
-" let g:ycm_complete_in_comments = 1
-"
-" " 两个字开始补全
-" let g:ycm_min_num_of_chars_for_completion = 2
-" let g:ycm_seed_identifiers_with_syntax = 1
-" let g:ycm_semantic_triggers =  {'c' : ['->', '.'], 'objc' : ['->', '.'], 'ocaml' : ['.', '#'], 'cpp,objcpp' : ['->', '.', '::'], 'php' : ['->', '::'], 'cs,java,javascript,vim,coffee,python,scala,go' : ['.'], 'ruby' : ['.', '::']}
-" nnoremap <leader>j :YcmCompleter GoToDefinitionElseDeclaration<CR>"
-" "<<<ycm
 
 
 ">>>vim-clang
