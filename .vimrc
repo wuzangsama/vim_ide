@@ -160,7 +160,8 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'junegunn/vim-easy-align'
 Plug 'vim-scripts/DoxygenToolkit.vim'
-Plug 'w0rp/ale'
+" Plug 'w0rp/ale'
+Plug 'vim-syntastic/syntastic'
 Plug 'justmao945/vim-clang'
 Plug 'Shougo/neocomplete.vim'
 Plug 'raimondi/delimitmate'
@@ -286,10 +287,24 @@ map <Leader>df <ESC>:Dox<CR>
 
 
 ">>>ale
-let g:ale_open_list=1
-let g:ale_set_quickfix=1
-let g:ale_lint_on_text_changed='never'
+" let g:ale_open_list=1
+" let g:ale_set_quickfix=1
+" let g:ale_lint_on_text_changed='never'
 "<<<ale
+
+
+">>>syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_cpp_checkers = ['clang_check']
+let g:syntastic_c_checkers = ['clang_check']
+let g:syntastic_clang_check_config_file = '.clang'
+"<<<syntastic
 
 
 ">>>vim-clang
