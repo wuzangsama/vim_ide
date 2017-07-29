@@ -1,114 +1,96 @@
 #!/bin/bash
-echo "开始安装，请耐心等待~"
-
-echo "安装依赖~"
-if which apt-get >/dev/null; then
-    sudo apt install build-essential \
-        python python3 python-dev python3-dev \
-        ruby ruby-dev \
-        lua5.3 liblua5.3-dev lua5.2 liblua5.2-dev \
-        perl libperl-dev \
-        libtcl8.6 \
-        ncurses-dev \
-        git cmake ctags silversearcher-ag curl cscope
-fi
+echo "开始安装,请耐心等待~"
 
 if which yum >/dev/null; then
-    sudo yum install python
-    sudo yum install python3
-    sudo yum install python-devel
-    sudo yum install python3-devel
-    sudo yum install ruby
-    sudo yum install ruby-devel
-    sudo yum install lua
-    sudo yum install lua-devel
-    sudo yum install perl
-    sudo yum install tcl
-    sudo yum install tcl-devel
-    sudo yum install ncurses
-    sudo yum install ncurses-libs
-    sudo yum install ncurses-c++-libs
-    sudo yum install ncurses-compat-libs
-    sudo yum install ncurses-devel
-    sudo yum install git
-    sudo yum install cmake
-    sudo yum install ctags
-    sudo yum install curl
-    sudo yum install cscope
-    sudo yum install ncurses-term
-
-    sudo yum install -y pcre-devel
-    sudo yum install xz-devel
-    sudo yum install automake
+    echo "centos(fedora)安装..."
+    yum update -y
+# 安装开发工具包和man
+    yum install -y epel-release.noarch
+    yum -y groupinstall "Development Tools"
+    yum -y install gitflow
+    yum -y install git-svn
+    yum -y install man
+# 安装zsh和oh-my-zsh
+    yum install -y zsh
+    yum install -y which
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    chsh -s /bin/zsh
+# 安装vim需要的工具包
+    yum install -y cmake
+    yum install -y clang
+    yum install -y cscope
+    yum install -y python
+    yum install -y python-devel
+    yum install -y ruby
+    yum install -y ruby-devel
+    yum install -y lua
+    yum install -y lua-devel
+    yum install -y perl
+    yum install -y tcl
+    yum install -y tcl-devel
+    yum install -y ncurses
+    yum install -y ncurses-devel
+    yum install -y the_silver_searcher
+    yum install -y tmux
+    yum install -y python34
+    yum install -y python34-devel
+# 安装go
+    yum install -y wget
+    goRelArch='linux-amd64'
+    GOLANG_VERSION='1.8.3'
+    url="https://golang.org/dl/go${GOLANG_VERSION}.${goRelArch}.tar.gz"
+    wget -O go.tgz "$url"
+    tar -C /usr/local -xzf go.tgz
+    rm go.tgz
+    go version
+# 安装vim
     cd /usr/local/src
-    sudo git clone https://github.com/ggreer/the_silver_searcher.git
-    cd the_silver_searcher
-    sudo ./build.sh
-    sudo make install
+    git clone https://github.com/vim/vim.git
+    cd vim
+    ./configure --prefix=/usr \
+     --with-features=huge \
+     --enable-multibyte \
+     --enable-cscope=yes \
+     --enable-luainterp=yes \
+     --enable-rubyinterp=yes \
+     --enable-pythoninterp=yes \
+     --with-python-config-dir=/usr/lib64/python2.7/config/ \
+     --with-python3-config-dir=/usr/lib64/python3.4/config-3.4m \
+     --enable-python3interp=yes \
+     --enable-tclinterp=yes \
+     --enable-gui=auto
+    make
+    make install
+    cd ..
+    rm -rf vim/
+# 安装powerline字体
+    git clone https://github.com/powerline/fonts.git
+    cd fonts
+    ./install.sh
+    cd ..
+    rm -rf fonts/
+# 安装vim初次启动需要的插件
+    curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    git clone https://github.com/tomasr/molokai.git ~/.vim/bundle/molokai
+    git clone https://github.com/Shougo/unite.vim.git ~/.vim/bundle/unite.vim
+    git clone https://github.com/shougo/vimfiler.vim.git ~/.vim/bundle/vimfiler.vim
+# 下载安装我自己的工作环境配置
+    git clone https://github.com/wuzangsama/vim_ide.git
+    cd ./vim_ide
+    cp -f .vimrc ~/
+    cp -f .zshrc ~/
+    cp -f .tmux.conf ~/
+# vim其他插件安装
+    vim -c "PlugInstall" -c "q" -c "q"
+    cd ~/.vim/bundle/ultisnips/
+    mkdir mysnippets
+    cp -rf /usr/local/src/vim_ide/mysnippets/* ~/.vim/bundle/ultisnips/mysnippets
+    rm -rf /usr/local/src/vim_ide/
+# 清理
+    yum clean all
+else
+    echo "暂时只支持centos或fedora,其他unix请按照步骤自己探索下"
 fi
 
-if which brew >/dev/null;then
-    echo "mac 使用brew安装~"
-    brew install ruby ruby-dev perl libperl-dev cmake ctags git the_silver_searcher curl cscope
-fi
-
-
-echo "重新编译安装vim~"
-cd ~
-git clone https://github.com/vim/vim.git
-cd vim
-./configure --prefix=/usr \
-    --with-features=huge \
-    --enable-multibyte \
-    --enable-cscope=yes \
-    --enable-perlinterp=yes \
-    --enable-luainterp=yes \
-    --enable-rubyinterp=yes \
-    --enable-pythoninterp=yes \
-    --with-python-config-dir=/usr/lib64/python2.7/config/ \
-    --enable-python3interp=yes \
-    --with-python3-config-dir=/usr/lib64/python3.4/config/ \
-    --enable-tclinterp=yes \
-    --enable-gui=auto
-
-make
-sudo make install
-
-
-echo "安装airline所需字体~"
-cd ~
-git clone https://github.com/powerline/fonts.git
-cd fonts
-./install.sh
-cd ..
-rm -rf fonts
-
-
-echo "备份原来的vim配置~"
-mv -f ~/.vim ~/.vim_old
-mv -f ~/.vimrc ~/.vimrc_old
-
-
-echo "安装vim-plug插件~"
-cd ~
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-
-echo "开始安装vim环境~"
-git clone https://github.com/wuzangsama/vim_ide.git
-cp -f ~/vim_ide/.vimrc ~/
-
-
-echo "开始安装Bundle插件，安装完将自动退出~"
-vim -c "PlugInstall" -c "q" -c "q"
-
-
-echo "最后一些处理工作~"
-cd ~/.vim/bundle/ultisnips/
-mkdir mysnippets
-cd ~
-cp -rf ~/vim_ide/mysnippets/* ~/.vim/bundle/ultisnips/mysnippets
-
-
-echo "OK，祝使用愉快~"
+echo "OK,祝使用愉快~"
