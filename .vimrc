@@ -46,7 +46,7 @@ set softtabstop=4 " 让 vim 把连续数量的空格视为一个制表符
 " 基于缩进或语法进行代码折叠
 set foldmethod=indent
 set foldlevel=2
-"set foldmethod=syntax
+" set foldmethod=syntax
 set nofoldenable " 启动 vim 时关闭折叠代码
 set formatoptions+=m " 如遇Unicode值大于255的文本，不必等到空格再折行
 set formatoptions+=B " 合并两行中文时，不在中间加空格
@@ -70,10 +70,10 @@ if has("autocmd")
     "autocmd BufWritePost $MYVIMRC source $MYVIMRC " 让配置变更立即生效
 endif
 
-"" 引入 C++ 标准库 tags
-"set tags+=/data/misc/software/app/vim/stdcpp.tags
-"set tags+=/data/misc/software/app/vim/sys.tags
-"set tags+=/usr/include/sys.tags
+" 引入 C++ 标准库 tags
+" set tags+=/data/misc/software/app/vim/stdcpp.tags
+" set tags+=/data/misc/software/app/vim/sys.tags
+" set tags+=/usr/include/sys.tags
 
 "=========================================
 " <<基础
@@ -271,13 +271,7 @@ function! LoadNeoComplete()
     let g:neocomplete#enable_at_startup = 1 " Use neocomplete.
     let g:neocomplete#enable_smart_case = 1 " Use smartcase.
     let g:neocomplete#sources#syntax#min_keyword_length = 3 " Set minimum syntax keyword length.
-
-    " Define dictionary.
-    let g:neocomplete#sources#dictionary#dictionaries = {
-                \ 'default' : '',
-                \ 'vimshell' : $HOME.'/.vimshell_hist',
-                \ 'scheme' : $HOME.'/.gosh_completions'
-                \ }
+    let g:neocomplete#use_vimproc = 1
 
     " Define keyword.
     if !exists('g:neocomplete#keyword_patterns')
@@ -285,33 +279,16 @@ function! LoadNeoComplete()
     endif
     let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
-    " Recommended key-mappings.
-    " <CR>: close popup and save indent.
-    inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-    function! s:my_cr_function()
-        return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-        " For no inserting <CR> key.
-        "return pumvisible() ? "\<C-y>" : "\<CR>"
-    endfunction
-    " <TAB>: completion.
-    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-    " <C-h>, <BS>: close popup and delete backword char.
-    "inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-    inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-
-    " Enable omni completion.
-    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
     " Enable heavy omni completion.
     if !exists('g:neocomplete#sources#omni#input_patterns')
         let g:neocomplete#sources#omni#input_patterns = {}
     endif
     let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
     let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<BS>"
+    inoremap <expr><BS> pumvisible() ? "<ESC>:call neocomplete#close_popup()<CR>a<BS>" : "<BS>"
 endfunction
 execute LoadNeoComplete()
 
