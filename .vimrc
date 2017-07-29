@@ -306,15 +306,15 @@ execute LoadRainbow()
 function! LoadCommandT()
     set wildignore+=*.o,*.obj,.git,.svn,*.pyc,*.so,Library*
     let g:CommandTWildIgnore=&wildignore
-    let g:CommandTMaxHeight = 30
+    let g:CommandTMaxHeight = 15
     let g:CommandTMaxFiles = 500000
     let g:CommandTInputDebounce = 200
     let g:CommandTFileScanner = 'watchman'
     let g:CommandTMaxCachedDirectories = 10
 
-    nnoremap <silent> <Space>f :CommandT<CR>
-    nnoremap <silent> <Space>t :CommandTBuffer<CR>
-    nnoremap <silent> <Space>j :CommandTJump<CR>
+    nmap <silent> <Space>f <Plug>(CommandT)
+    nmap <silent> <Space>t <Plug>(CommandTBuffer)
+    nmap <silent> <Space>j <Plug>(CommandTJump)
 endfunction
 execute LoadCommandT()
 
