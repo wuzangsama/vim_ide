@@ -70,6 +70,13 @@ if has("autocmd")
     "autocmd BufWritePost $MYVIMRC source $MYVIMRC " 让配置变更立即生效
 endif
 
+if has('nvim')
+    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+    let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+    let g:python_host_prog='/usr/bin/python'
+    let g:python3_host_prog = '/usr/bin/python3'
+endif
+
 " 引入 C++ 标准库 tags
 " set tags+=/data/misc/software/app/vim/stdcpp.tags
 " set tags+=/data/misc/software/app/vim/sys.tags
@@ -87,7 +94,11 @@ endif
 " vim-plug 环境设置
 filetype off
 " vim-plug 管理的插件列表必须位于 call plug#begin() 和 call plug#end() 之间
-call plug#begin('~/.vim/bundle')
+if has('nvim')
+    call plug#begin('~/.config/nvim/bundle')
+else
+    call plug#begin('~/.vim/bundle')
+endif
 
 Plug 'tomasr/molokai'
 Plug 'altercation/vim-colors-solarized'
@@ -212,7 +223,11 @@ execute LoadFswitch()
 " 由接口快速生成实现框架
 function! LoadProtodef()
     " 设置 pullproto.pl 脚本路径
-    let g:protodefprotogetter='~/.vim/bundle/vim-protodef/pullproto.pl'
+    if has('nvim')
+        let g:protodefprotogetter='~/.config/nvim/bundle/vim-protodef/pullproto.pl'
+    else
+        let g:protodefprotogetter='~/.vim/bundle/vim-protodef/pullproto.pl'
+    endif
     " 成员函数的实现顺序与声明顺序一致
     let g:disable_protodef_sorting=1
 endfunction
