@@ -117,16 +117,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'vim-scripts/DoxygenToolkit.vim'
 " Plug 'w0rp/ale'
 Plug 'vim-syntastic/syntastic'
-if !has('nvim')
-    " Plug 'justmao945/vim-clang'
-    " Plug 'Shougo/neocomplete.vim'
-    Plug 'maralla/completor.vim'
-else
-    " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    " Plug 'Rip-Rip/clang_complete'
-    " Plug 'zchee/deoplete-go', { 'do': 'make'}
-    Plug 'maralla/completor.vim'
-endif
+Plug 'Shougo/neocomplete.vim'
 Plug 'raimondi/delimitmate'
 Plug 'luochen1990/rainbow'
 Plug 'tomtom/tcomment_vim' " 注释 gcc gcu gcap
@@ -280,14 +271,6 @@ function! LoadSyntastic()
 endfunction
 execute LoadSyntastic()
 
-function! LoadVimClang()
-    let g:clang_cpp_options = '-std=c++11'
-    let g:clang_auto = 0 " disable auto completion for vim-clang
-    let g:clang_c_completeopt = 'menuone,preview' " default 'longest' can not work with neocomplete
-    let g:clang_cpp_completeopt = 'menuone,preview'
-    let g:clang_diagsopt = ''
-endfunction
-
 function! LoadNeoComplete()
     let g:neocomplete#enable_at_startup = 1 " Use neocomplete.
     let g:neocomplete#enable_smart_case = 1 " Use smartcase.
@@ -311,39 +294,7 @@ function! LoadNeoComplete()
     inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<BS>"
     inoremap <expr><BS> pumvisible() ? "<ESC>:call neocomplete#close_popup()<CR>a<BS>" : "<BS>"
 endfunction
-
-function! LoadDeoplete()
-    let g:deoplete#enable_at_startup = 1
-    let g:deoplete#auto_completion_start_length = 1
-    let g:deoplete#enable_smart_case = 1
-    " set completeopt-=preview
-    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<BS>"
-    inoremap <expr><BS> pumvisible() ? "<ESC>:call deoplete#close_popup()<CR>a<BS>" : "<BS>"
-endfunction
-
-function! LoadClangComplete()
-    au FileType c,cpp,objc,objcpp setl omnifunc=clang_complete#ClangComplete
-    let g:clang_complete_auto = 0
-    let g:clang_auto_select = 0
-    let g:clang_omnicppcomplete_compliance = 0
-    let g:clang_make_default_keymappings = 0
-endfunction
-
-function! LoadCompletor()
-    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<BS>"
-endfunction
-
-if !has('nvim')
-    " execute LoadVimClang()
-    " execute LoadNeoComplete()
-    execute LoadCompletor()
-else
-    " execute LoadDeoplete()
-    " execute LoadClangComplete()
-    execute LoadCompletor()
-endif
+execute LoadNeoComplete()
 
 function! LoadMultipleCursors()
     let g:multi_cursor_next_key='<S-M>' " 选中
