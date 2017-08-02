@@ -118,12 +118,14 @@ Plug 'vim-scripts/DoxygenToolkit.vim'
 " Plug 'w0rp/ale'
 Plug 'vim-syntastic/syntastic'
 if !has('nvim')
-    Plug 'justmao945/vim-clang'
-    Plug 'Shougo/neocomplete.vim'
+    " Plug 'justmao945/vim-clang'
+    " Plug 'Shougo/neocomplete.vim'
+    Plug 'maralla/completor.vim'
 else
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    Plug 'Rip-Rip/clang_complete'
-    Plug 'zchee/deoplete-go', { 'do': 'make'}
+    " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    " Plug 'Rip-Rip/clang_complete'
+    " Plug 'zchee/deoplete-go', { 'do': 'make'}
+    Plug 'maralla/completor.vim'
 endif
 Plug 'raimondi/delimitmate'
 Plug 'luochen1990/rainbow'
@@ -309,10 +311,6 @@ function! LoadNeoComplete()
     inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<BS>"
     inoremap <expr><BS> pumvisible() ? "<ESC>:call neocomplete#close_popup()<CR>a<BS>" : "<BS>"
 endfunction
-if !has('nvim')
-    execute LoadVimClang()
-    execute LoadNeoComplete()
-endif
 
 function! LoadDeoplete()
     let g:deoplete#enable_at_startup = 1
@@ -332,9 +330,19 @@ function! LoadClangComplete()
     let g:clang_make_default_keymappings = 0
 endfunction
 
-if has('nvim')
-    execute LoadDeoplete()
-    execute LoadClangComplete()
+function! LoadCompletor()
+    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<BS>"
+endfunction
+
+if !has('nvim')
+    " execute LoadVimClang()
+    " execute LoadNeoComplete()
+    execute LoadCompletor()
+else
+    " execute LoadDeoplete()
+    " execute LoadClangComplete()
+    execute LoadCompletor()
 endif
 
 function! LoadMultipleCursors()
