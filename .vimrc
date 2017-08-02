@@ -123,7 +123,7 @@ if !has('nvim')
     Plug 'Shougo/neocomplete.vim'
 else
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    Plug 'zchee/deoplete-clang'
+    Plug 'Rip-Rip/clang_complete'
     Plug 'zchee/deoplete-go', { 'do': 'make'}
 endif
 Plug 'raimondi/delimitmate'
@@ -315,11 +315,25 @@ endif
 
 function! LoadDeoplete()
     let g:deoplete#enable_at_startup = 1
+    let g:deoplete#auto_completion_start_length = 1
+    let g:deoplete#enable_smart_case = 1
+    set completeopt+=noinsert
+    set completeopt-=preview
     inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
     inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 endfunction
+
+function! LoadClangComplete()
+    au FileType c,cpp,objc,objcpp setl omnifunc=clang_complete#ClangComplete
+    let g:clang_complete_auto = 0
+    let g:clang_auto_select = 0
+    let g:clang_omnicppcomplete_compliance = 0
+    let g:clang_make_default_keymappings = 0
+endfunction
+
 if has('nvim')
     execute LoadDeoplete()
+    execute LoadClangComplete()
 endif
 
 function! LoadMultipleCursors()
