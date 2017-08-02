@@ -84,7 +84,6 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias tu="tmux -u2"
-alias vi="nvim"
-alias vim="nvim"
+alias vi="vim"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
