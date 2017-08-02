@@ -44,8 +44,8 @@ set shiftwidth=4 " 设置格式化时制表符占用空格数
 set softtabstop=4 " 让 vim 把连续数量的空格视为一个制表符
 
 " 基于缩进或语法进行代码折叠
-set foldmethod=indent
-set foldlevel=2
+" set foldmethod=indent
+" set foldlevel=2
 " set foldmethod=syntax
 set nofoldenable " 启动 vim 时关闭折叠代码
 set formatoptions+=m " 如遇Unicode值大于255的文本，不必等到空格再折行
@@ -107,8 +107,14 @@ Plug 'junegunn/vim-easy-align'
 Plug 'vim-scripts/DoxygenToolkit.vim'
 " Plug 'w0rp/ale'
 Plug 'vim-syntastic/syntastic'
-Plug 'justmao945/vim-clang'
-Plug 'Shougo/neocomplete.vim'
+if !has('nvim')
+    Plug 'justmao945/vim-clang'
+    Plug 'Shougo/neocomplete.vim'
+else
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    Plug 'zchee/deoplete-clang'
+    Plug 'zchee/deoplete-go', { 'do': 'make'}
+endif
 Plug 'raimondi/delimitmate'
 Plug 'luochen1990/rainbow'
 Plug 'tomtom/tcomment_vim' " 注释 gcc gcu gcap
@@ -199,7 +205,7 @@ execute LoadColorSchemeMolokai()
 
 " *.cpp 和 *.h 间切换
 function! LoadFswitch()
-    nmap <silent> <leader>a :FSHere<cr>
+    nnoremap <silent> <leader>a :FSHere<cr>
 endfunction
 execute LoadFswitch()
 
@@ -231,8 +237,8 @@ execute LoadEasyAlign()
 function! LoadDoxygen()
     let g:DoxygenToolkit_authorName="zhanghf@zailingtech.com"
     let g:DoxygenToolkit_versionString="1.0"
-    map <leader>da <ESC>gg:DoxAuthor<CR>
-    map <leader>df <ESC>:Dox<CR>
+    nnoremap <leader>da <ESC>gg:DoxAuthor<CR>
+    nnoremap <leader>df <ESC>:Dox<CR>
 endfunction
 execute LoadDoxygen()
 
@@ -263,7 +269,6 @@ function! LoadVimClang()
     let g:clang_cpp_completeopt = 'menuone,preview'
     let g:clang_diagsopt = ''
 endfunction
-execute LoadVimClang()
 
 function! LoadNeoComplete()
     let g:neocomplete#enable_at_startup = 1 " Use neocomplete.
@@ -288,7 +293,19 @@ function! LoadNeoComplete()
     inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<BS>"
     inoremap <expr><BS> pumvisible() ? "<ESC>:call neocomplete#close_popup()<CR>a<BS>" : "<BS>"
 endfunction
-execute LoadNeoComplete()
+if !has('nvim')
+    execute LoadVimClang()
+    execute LoadNeoComplete()
+endif
+
+function! LoadDeoplete()
+    let g:deoplete#enable_at_startup = 1
+    inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+endfunction
+if has('nvim')
+    execute LoadDeoplete()
+endif
 
 function! LoadMultipleCursors()
     let g:multi_cursor_next_key='<S-M>' " 选中
@@ -310,9 +327,9 @@ function! LoadCommandT()
     let g:CommandTFileScanner = 'watchman'
     let g:CommandTMaxCachedDirectories = 10
 
-    nmap <silent> <Space>f <Plug>(CommandT)
-    nmap <silent> <Space>t <Plug>(CommandTBuffer)
-    nmap <silent> <Space>j <Plug>(CommandTJump)
+    nnoremap <silent> <Space>f <Plug>(CommandT)
+    nnoremap <silent> <Space>t <Plug>(CommandTBuffer)
+    nnoremap <silent> <Space>j <Plug>(CommandTJump)
 endfunction
 execute LoadCommandT()
 
@@ -356,8 +373,9 @@ endfunction
 execute LoadUnite()
 
 function! LoadVimFiler()
-    map <F3> :VimFilerExplorer<CR>
-    imap <F3> <ESC>:VimFilerExplorer<CR>
+    nnoremap <F3> :VimFilerExplorer<CR>
+    inoremap <F3> <ESC>:VimFilerExplorer<CR>
+    vnoremap <F3> <ESC>:VimFilerExplorer<CR>
     let g:vimfiler_as_default_explorer = 1
     let g:vimfiler_restore_alternate_file = 1
     let g:vimfiler_tree_indentation = 1
@@ -499,17 +517,17 @@ execute LoadVimGo()
 "=========================================
 
 " 定义快捷键到行首和行尾
-nmap LB 0
-nmap LE $
+nnoremap LB 0
+nnoremap LE $
 
 " 定义快捷键关闭当前分割窗口
-nmap <leader>q :q<CR>
+nnoremap <leader>q :q<CR>
 " 定义快捷键保存当前窗口内容
-nmap <leader>w :w<CR>
+nnoremap <leader>w :w<CR>
 " 定义快捷键保存所有窗口内容并退出 vim
-nmap <leader>WQ :wa<CR>:q<CR>
+nnoremap <leader>WQ :wa<CR>:q<CR>
 " 不做任何保存，直接退出 vim
-nmap <leader>Q :qa!<CR>
+nnoremap <leader>Q :qa!<CR>
 
 " 设置快捷键遍历子窗口
 " 依次遍历
@@ -527,7 +545,7 @@ nnoremap <C-j> <C-w>j
 " 库信息参考
 source $VIMRUNTIME/ftplugin/man.vim
 " 定义;h命令查看各类man信息的快捷键
-nmap <leader>h :Man 3 <cword><CR>
+nnoremap <leader>h :Man 3 <cword><CR>
 
 " cd到buffer所在目录
 noremap <leader>cd :cd %:p:h<cr>
@@ -544,7 +562,7 @@ if has("cscope")
     set csverb                             "显示添加成功与否
 endif
 
-nmap <F4> :call GeneratorTags()<cr><cr><cr><cr>
+nnoremap <F4> :call GeneratorTags()<cr><cr><cr><cr>
 func! GeneratorTags()
     exec "!ctags -R --sort=1 --c++-kinds=+p --fields=+iaS --extra=+q --language-force=C++ ."
     exec "!find . -name \"*.c\" -o -name \"*.cpp\" -o -name \"*.h\" -o -name \"*.hpp\" > cscope.files"
@@ -552,7 +570,7 @@ func! GeneratorTags()
 endfunc
 
 "C，C++ 按F7编译运行
-map <F7> :call CompileRunGcc()<CR>
+nnoremap <F7> :call CompileRunGcc()<CR>
 func! CompileRunGcc()
     exec "w"
     if &filetype == 'c'
