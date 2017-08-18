@@ -42,7 +42,6 @@ if which yum >/dev/null; then
     wget -O go.tgz "$url"
     tar -C /usr/local -xzf go.tgz
     rm go.tgz
-    go version
 # 安装vim
     cd /usr/local/src
     git clone https://github.com/vim/vim.git
