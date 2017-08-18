@@ -13,7 +13,7 @@ if which yum >/dev/null; then
 # 安装zsh和oh-my-zsh
     yum install -y zsh
     yum install -y which
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    git clone --depth=1 https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
     chsh -s /bin/zsh
 # 安装vim需要的工具包
     yum install -y cmake
@@ -80,6 +80,7 @@ if which yum >/dev/null; then
     cp -f .vimrc ~/
     cp -f .zshrc ~/
     cp -f .tmux.conf ~/
+    cp -f robbyrussell.zsh-theme ~/.oh-my-zsh/themes/
 # vim其他插件安装
     vim -c "PlugInstall" -c "q" -c "q"
     cd ~/.vim/bundle/ultisnips/
